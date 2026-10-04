@@ -1,0 +1,83 @@
+---
+title: Floor finder and square-metre pricing in Shopify
+slug: floor-finder
+summary: A guide on the front page that finds the right floors from four questions, and calculators that convert between square metres, packages and carpet lengths.
+kind: client
+year: '2025'
+role: Sole developer, employed at Brating
+tech: [Shopify, Liquid, JavaScript, Web Components, CSS, Shopify Search & Discovery]
+cover: ../../../assets/projects/gulvfinder/trin-1.png
+coverAlt: The floor finder's first question, “How hard-wearing should the floor be?”, with “Active family with children/pets” selected
+featured: true
+order: 2
+draft: true
+---
+
+import PackageCalculator from '../../../components/calculators/PackageCalculator.tsx';
+import CarpetCalculator from '../../../components/calculators/CarpetCalculator.tsx';
+import filtre from '../../../assets/projects/gulvfinder/filtre.png';
+
+<Todo>Ask Brating whether the case study may name Gulvgiganten and link to the store once it has opened. Until then, the case is anonymous.</Todo>
+
+Brating built the online store for a Danish flooring retailer in Shopify. I coded the parts the theme couldn't handle: a floor finder on the front page and calculators for products sold by the square metre. I did it on my own over one to two months in 2025, using AI as a tool along the way.
+
+## The problem
+
+The store has more than 2,000 products, and most customers don't know which technical properties to look for. The store wanted a guide on the front page that asks a few questions and shows the floors that fit. Shopify has no section for that, so it had to be coded.
+
+At the same time, floors are sold in whole packages and carpet in the full roll width, while customers think in square metres and lengths. The product pages had to do the conversion for them.
+
+## The floor finder
+
+The floor finder is a front-page section with four questions: how hard-wearing the floor needs to be, and whether it should be water-resistant, sound-dampening and suitable for underfloor heating. Every question has a "Don't know" answer, so nobody gets stuck.
+
+There's no app or custom search engine behind it. The floors' properties are stored as metafields on the products, and Shopify can filter on them by itself. The floor finder simply turns the answers into Shopify's filters in the URL and sends the customer on to the product list with the filters switched on. Slightly shortened:
+
+```js
+let filterParams = [];
+
+const slidstyrke = document.querySelector('input[name="slidstyrke"]:checked')?.value;
+if (slidstyrke) filterParams.push(`filter.p.m.product.slidstyrke=${encodeURIComponent(slidstyrke)}`);
+
+const vandafvisende = document.querySelector('input[name="vandafvisende"]:checked')?.value;
+if (vandafvisende) filterParams.push('filter.p.m.product.vandafvisende=1');
+
+// … and the same for sound dampening and underfloor heating
+
+const collectionsUrl = document.querySelector('.gulv-filter').dataset.collectionsUrl + '/all';
+window.location.href = `${collectionsUrl}?${filterParams.join('&')}`;
+```
+
+<Figure src={filtre} narrow alt="The filters on the product list, with “Suitable for underfloor heating” and “Water-resistant” switched on and 670 floors in each" caption="The answers end up as ordinary filters, which customers can adjust afterwards." />
+
+- Every question and answer can be edited in Shopify's theme editor, so the store doesn't need a developer to change them.
+- You have to pick an answer to move on, and a message explains why if you don't.
+- A step bar and "1 of 4" show how far along you are, and the steps fade softly into each other.
+
+## Square metres, packages and carpet
+
+Two components on the product page let customers work in the units they know:
+
+- **Floors in packages.** Customers enter how many square metres they need, and the quantity is rounded up to whole packages. The fields are linked both ways, and the total updates straight away.
+- **Wall-to-wall carpet.** Customers pick a roll width and enter the length. The area is rounded up to whole square metres, which go in the cart, and the length follows the order, so the store knows how much to cut.
+
+Both are built as custom elements that move the theme's own quantity field into the calculator. The cart therefore still uses the theme's normal logic, and the calculators work on the product page, in quick view and in featured products.
+
+Try them below. They're recreated in React for this site, but they calculate the same way as the originals.
+
+<PackageCalculator client:visible lang="en" product="Vinyl flooring (demo)" packM2={2.13} pricePerPack={629} />
+
+<CarpetCalculator client:visible lang="en" product="Wall-to-wall carpet (demo)" pricePerM2={249} widths={[400, 500]} />
+
+## The hardest part
+
+<Todo>What was hardest? For example getting the calculators to work with the theme's own quantity field and cart, or setting up the metafields so Shopify could filter on them.</Todo>
+
+## The result
+
+<Todo>Once the store has opened: describe how the floor finder and calculators are used, and link to the store if you've been given permission.</Todo>
+
+## What I'd do differently today
+
+- Read the roll width from a metafield instead of parsing it out of the variant name, such as "400 cm".
+- Put the JavaScript in separate files instead of directly in the sections, so it can be cached and tested.

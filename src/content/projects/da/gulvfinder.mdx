@@ -1,0 +1,82 @@
+---
+title: Gulvfinder og kvadratmeterpriser i Shopify
+summary: En guide på forsiden, der finder de rigtige gulve ud fra fire spørgsmål, og beregnere, der omregner mellem kvadratmeter, pakker og tæppelængder.
+kind: client
+year: '2025'
+role: Eneste udvikler, ansat hos Brating
+tech: [Shopify, Liquid, JavaScript, Web Components, CSS, Shopify Search & Discovery]
+cover: ../../../assets/projects/gulvfinder/trin-1.png
+coverAlt: Gulvfinderens første spørgsmål, Hvor slidstærkt skal gulvet være?, med svaret Aktiv familie med børn/husdyr valgt
+featured: true
+order: 2
+draft: true
+---
+
+import PackageCalculator from '../../../components/calculators/PackageCalculator.tsx';
+import CarpetCalculator from '../../../components/calculators/CarpetCalculator.tsx';
+import filtre from '../../../assets/projects/gulvfinder/filtre.png';
+
+<Todo>Spørg Brating, om casen må nævne Gulvgiganten og linke til butikken, når den er åbnet. Indtil da er casen anonym.</Todo>
+
+Brating byggede webshoppen til en dansk gulvforhandler i Shopify. Jeg kodede de dele, temaet ikke kunne klare: en gulvfinder på forsiden og beregnere til varer, der sælges pr. kvadratmeter. Jeg lavede det alene over en til to måneder i 2025 og brugte AI som værktøj undervejs.
+
+## Udfordringen
+
+Butikken har over 2.000 produkter, og de fleste kunder ved ikke, hvilke tekniske egenskaber de skal kigge efter. Butikken ville have en guide på forsiden, der stiller få spørgsmål og viser de gulve, der passer. Shopify har ingen sektion til det, så den skulle kodes.
+
+Samtidig sælges gulve i hele pakker og tæpper i fuld rullebredde, mens kunderne tænker i kvadratmeter og længder. Produktsiderne skulle regne om for dem.
+
+## Gulvfinderen
+
+Gulvfinderen er en sektion på forsiden med fire spørgsmål: hvor slidstærkt gulvet skal være, og om det skal være vandafvisende, lyddæmpende og egnet til gulvvarme. Hvert spørgsmål har et "Ved ikke"-svar, så ingen går i stå.
+
+Der er ingen app eller egen søgemaskine bag. Gulvenes egenskaber ligger som metafelter på produkterne, og Shopify kan selv filtrere på dem. Gulvfinderen oversætter bare svarene til Shopifys filtre i adressen og sender kunden videre til produktlisten med filtrene slået til. Lidt forkortet:
+
+```js
+let filterParams = [];
+
+const slidstyrke = document.querySelector('input[name="slidstyrke"]:checked')?.value;
+if (slidstyrke) filterParams.push(`filter.p.m.product.slidstyrke=${encodeURIComponent(slidstyrke)}`);
+
+const vandafvisende = document.querySelector('input[name="vandafvisende"]:checked')?.value;
+if (vandafvisende) filterParams.push('filter.p.m.product.vandafvisende=1');
+
+// … og det samme for lyddæmpning og gulvvarme
+
+const collectionsUrl = document.querySelector('.gulv-filter').dataset.collectionsUrl + '/all';
+window.location.href = `${collectionsUrl}?${filterParams.join('&')}`;
+```
+
+<Figure src={filtre} narrow alt="Filtrene på produktlisten, hvor Egnet til gulvvarme og Vandafvisende er slået til, med 670 gulve i hver" caption="Svarene ender som almindelige filtre, som kunden selv kan justere bagefter." />
+
+- Alle spørgsmål og svar kan rettes i Shopifys temaeditor, så butikken ikke behøver en udvikler for at ændre dem.
+- Man skal vælge et svar for at gå videre, og ellers forklarer en besked hvorfor.
+- En trinlinje og "1 ud af 4" viser, hvor langt man er, og trinnene toner blødt over i hinanden.
+
+## Kvadratmeter, pakker og tæpper
+
+To komponenter på produktsiden lader kunden regne i det, de kender:
+
+- **Gulve i pakker.** Kunden skriver, hvor mange kvadratmeter der skal bruges, og antallet rundes op til hele pakker. Felterne hænger sammen begge veje, og totalprisen opdateres med det samme.
+- **Væg-til-væg-tæpper.** Kunden vælger rullebredde og skriver længden. Arealet rundes op til hele kvadratmeter, som lægges i kurven, og længden følger med ordren, så butikken ved, hvor meget der skal skæres.
+
+Begge er bygget som custom elements, der flytter temaets eget antalsfelt ind i beregneren. Kurven bruger derfor stadig temaets normale logik, og beregnerne virker både på produktsiden, i quick view og i fremhævede produkter.
+
+Prøv dem herunder. De er genskabt i React til denne side, men regner på samme måde som originalerne.
+
+<PackageCalculator client:visible lang="da" product="Vinylgulv (demo)" packM2={2.13} pricePerPack={629} />
+
+<CarpetCalculator client:visible lang="da" product="Væg-til-væg-tæppe (demo)" pricePerM2={249} widths={[400, 500]} />
+
+## Det sværeste
+
+<Todo>Hvad var sværest? Fx at få beregnerne til at spille sammen med temaets eget antalsfelt og kurv, eller at få metafelterne sat op, så Shopify kunne filtrere på dem.</Todo>
+
+## Resultatet
+
+<Todo>Når butikken er åbnet: skriv, hvordan gulvfinderen og beregnerne bliver brugt, og link til butikken, hvis du har fået lov.</Todo>
+
+## Det ville jeg gøre anderledes i dag
+
+- Læse rullebredden fra et metafelt i stedet for at aflæse den i variantens navn, fx "400 cm".
+- Lægge JavaScript i egne filer i stedet for direkte i sektionerne, så det kan caches og testes.
