@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectItem from '../components/ProjectItem.astro';
+import { getProjects } from '../lib/projects';
+import { routes } from '../i18n/routes';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = await getProjects(lang);
+
+const groups = [
+  { id: 'kunder', title: t('projects.client'), items: projects.filter((p) => p.data.kind === 'client') },
+  { id: 'egne', title: t('projects.personal'), items: projects.filter((p) => p.data.kind === 'personal') },
+];
+---
+
+<Base
+  lang={lang}
+  title={t('projects.title')}
+  description={t('projects.description')}
+  alternates={routes.projects}
+>
+  <div class="wrap pt-10 md:pt-16">
+    <h1 class="text-3xl font-bold md:text-4xl">{t('projects.title')}</h1>
+    <p class="mt-5 max-w-[46ch] text-lg">{t('projects.intro')}</p>
+
+    {
+      groups.map((group) => (
+        <section class="mt-20" aria-labelledby={group.id}>
+          <h2 id={group.id} class="text-2xl font-bold">
+            {group.title}
+          </h2>
+          {group.items.length > 0 ? (
+            <ul class="mt-10 space-y-12">
+              {group.items.map((project) => (
+                <li>
+                  <ProjectItem project={project} lang={lang} size="small" />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="mt-4 text-muted">{t('projects.empty')}</p>
+          )}
+        </section>
+      ))
+    }
+  </div>
+</Base>

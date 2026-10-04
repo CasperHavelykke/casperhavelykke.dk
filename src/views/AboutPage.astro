@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import Todo from '../components/Todo.astro';
+import AboutDa from '../content/about/da.mdx';
+import AboutEn from '../content/about/en.mdx';
+import { site } from '../config';
+import { routes } from '../i18n/routes';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const About = lang === 'da' ? AboutDa : AboutEn;
+const cv = site.cv[lang];
+---
+
+<Base
+  lang={lang}
+  title={t('about.title')}
+  description={t('about.description')}
+  alternates={routes.about}
+>
+  <div class="wrap pt-10 md:pt-16">
+    <h1 class="text-3xl font-bold md:text-4xl">{t('about.title')}</h1>
+    <div class="prose mt-10">
+      <About components={{ Todo }} />
+    </div>
+    {
+      cv && (
+        <p class="mt-10">
+          <a href={cv} class="button">
+            {t('home.cta.cv')}
+          </a>
+        </p>
+      )
+    }
+  </div>
+</Base>

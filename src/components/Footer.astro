@@ -1,0 +1,44 @@
+---
+import { site } from '../config';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const cv = site.cv[lang];
+const links = [
+  site.linkedin && { href: site.linkedin, label: 'LinkedIn' },
+  site.github && { href: site.github, label: 'GitHub' },
+  cv && { href: cv, label: t('contact.cv') },
+].filter((link) => !!link);
+---
+
+<footer id="kontakt" class="mt-24 bg-glaze">
+  <div class="wrap grid grid-cols-1 gap-x-8 gap-y-6 pt-14 pb-10 md:grid-cols-12">
+    <h2 class="text-2xl font-bold md:col-span-4">{t('contact.title')}</h2>
+    <div class="md:col-span-8">
+      <p class="max-w-[34ch] text-lg">{t('contact.lead')}</p>
+      <p class="mt-4 text-xl font-semibold sm:text-2xl">
+        <a href={`mailto:${site.email}`} class="break-all">{site.email}</a>
+      </p>
+      {
+        links.length > 0 && (
+          <ul aria-label={t('contact.profiles')} class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+            {links.map(({ href, label }) => (
+              <li>
+                <a href={href}>{label}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <p class="text-sm text-muted md:col-span-8 md:col-start-5 md:mt-8">
+      {t('contact.colophon')} &copy; {new Date().getFullYear()} {site.name}
+    </p>
+  </div>
+</footer>

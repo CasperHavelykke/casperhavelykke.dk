@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../lib/projects';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  /** The `sizes` attribute for the responsive image. */
+  sizes: string;
+  /** Wide on the case page, 4:3 in lists. */
+  wide?: boolean;
+  eager?: boolean;
+}
+
+const { project, lang, sizes, wide = false, eager = false } = Astro.props;
+const { cover, coverAlt } = project.data;
+const t = useTranslations(lang);
+const aspect = wide ? 'aspect-video' : 'aspect-[4/3]';
+---
+
+{
+  cover ? (
+    <Image
+      src={cover}
+      alt={coverAlt ?? ''}
+      widths={[480, 800, 1200, 1600, 2400]}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      class:list={[aspect, 'w-full rounded-[4px] bg-glaze object-cover']}
+    />
+  ) : (
+    <div class:list={[aspect, 'placeholder']} aria-hidden="true">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="none">
+        <line x1="0" y1="0" x2="400" y2="300" />
+        <line x1="400" y1="0" x2="0" y2="300" />
+      </svg>
+      <span>{t('project.coverMissing')}</span>
+    </div>
+  )
+}
+
+<style>
+  /* The wireframe convention for "image goes here". */
+  .placeholder {
+    position: relative;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    color: var(--muted);
+  }
+
+  .placeholder svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    stroke: var(--line);
+    stroke-width: 1.5;
+  }
+
+  .placeholder line {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .placeholder span {
+    position: relative;
+    padding: 0.25rem 0.75rem;
+    background: var(--paper);
+    font-size: var(--text-sm);
+  }
+</style>

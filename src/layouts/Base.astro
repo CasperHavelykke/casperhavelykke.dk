@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config';
+import { htmlLang, langs, ogLocale, useTranslations, type Lang } from '../i18n/ui';
+import type { Alternates } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  /** Page title without the site name. */
+  title: string;
+  description: string;
+  alternates: Alternates;
+  isHome?: boolean;
+  /** Keep the page out of search results, e.g. the 404 page. */
+  noindex?: boolean;
+}
+
+const { lang, title, description, alternates, isHome = false, noindex = false } = Astro.props;
+const t = useTranslations(lang);
+
+const fullTitle = isHome ? `${site.name}, ${title.toLowerCase()}` : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const ogImage = site.ogImage ? absolute(site.ogImage) : null;
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          {langs.map((l) => (
+            <link rel="alternate" hreflang={l} href={absolute(alternates[l])} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={absolute(alternates.da)} />
+        </>
+      )
+    }
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#fafbfe" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c1838" media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
+
+    <Font cssVariable="--font-schibsted" preload />
+    <Font cssVariable="--font-fragment" />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#indhold"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-10 focus:bg-paper focus:px-4 focus:py-2"
+    >
+      {t('skip.content')}
+    </a>
+    <Header lang={lang} alternates={alternates} isHome={isHome} />
+    <main id="indhold" class="flex-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

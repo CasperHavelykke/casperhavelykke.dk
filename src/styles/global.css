@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+/*
+ * Porcelain and cobalt: one ink in a few strengths, like Danish blue-painted
+ * porcelain by day and a cyanotype blueprint by night. No other hues.
+ */
+:root {
+  color-scheme: light dark;
+
+  --paper: #fafbfe;
+  --glaze: #e9effb;
+  --ink: #1d3b8f;
+  --ink-strong: #102463;
+  --muted: #4a62a8;
+  --line: #c5d1ec;
+  --accent: #1d3b8f;
+
+  --astro-code-foreground: #1d3b8f;
+  --astro-code-background: #e9effb;
+  --astro-code-token-keyword: #0b1b52;
+  --astro-code-token-constant: #102463;
+  --astro-code-token-function: #2b56c4;
+  --astro-code-token-string: #3a5cc0;
+  --astro-code-token-string-expression: #3a5cc0;
+  --astro-code-token-parameter: #1d3b8f;
+  --astro-code-token-comment: #55679a;
+  --astro-code-token-punctuation: #4a62a8;
+  --astro-code-token-link: #1d3b8f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0c1838;
+    --glaze: #14244f;
+    --ink: #e8eefb;
+    --ink-strong: #ffffff;
+    --muted: #a8b7df;
+    --line: #2c3f78;
+    --accent: #9db7ff;
+
+    --astro-code-foreground: #e8eefb;
+    --astro-code-background: #14244f;
+    --astro-code-token-keyword: #ffffff;
+    --astro-code-token-constant: #ffffff;
+    --astro-code-token-function: #9db7ff;
+    --astro-code-token-string: #b9cbff;
+    --astro-code-token-string-expression: #b9cbff;
+    --astro-code-token-parameter: #e8eefb;
+    --astro-code-token-comment: #8a9bc8;
+    --astro-code-token-punctuation: #a8b7df;
+    --astro-code-token-link: #9db7ff;
+  }
+}
+
+@theme {
+  --color-*: initial;
+  --text-*: initial;
+
+  /* Type scale after Bringhurst: 14, 18, 21, 24, 36, 48, 60 */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.45;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.3125rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 2.25rem;
+  --text-2xl--line-height: 1.12;
+  --text-3xl: 3rem;
+  --text-3xl--line-height: 1.04;
+  --text-4xl: 3.75rem;
+  --text-4xl--line-height: 1;
+}
+
+@theme inline {
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-fragment), ui-monospace, monospace;
+
+  --color-paper: var(--paper);
+  --color-glaze: var(--glaze);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--paper);
+  }
+}
+
+@layer components {
+  /* Width is explicit because auto margins stop flex items from stretching. */
+  .wrap {
+    width: 100%;
+    max-width: 74rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (width >= 48rem) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Pill-shaped link, kept for the few main actions on a page. */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.125rem;
+    border: 1.5px solid var(--accent);
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 120ms, color 120ms;
+  }
+
+  .button:hover {
+    text-decoration: none;
+  }
+
+  .button-solid {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .button-solid:hover {
+    background: var(--ink-strong);
+    border-color: var(--ink-strong);
+  }
+
+  .button:not(.button-solid):hover {
+    background: var(--glaze);
+  }
+
+  /* Long-form text inside case studies. */
+  .prose {
+    max-width: 40rem;
+  }
+
+  .prose > * + * {
+    margin-top: 1em;
+  }
+
+  .prose h2 {
+    margin-top: 2.5rem;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 700;
+  }
+
+  .prose h3 {
+    margin-top: 2rem;
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .prose h2 + *,
+  .prose h3 + * {
+    margin-top: 0.5rem;
+  }
+
+  .prose ul,
+  .prose ol {
+    padding-left: 1.25rem;
+  }
+
+  .prose ul {
+    list-style: disc;
+  }
+
+  .prose ol {
+    list-style: decimal;
+  }
+
+  .prose li + li {
+    margin-top: 0.35em;
+  }
+
+  .prose li::marker {
+    color: var(--muted);
+  }
+
+  .prose strong {
+    color: var(--ink-strong);
+    font-weight: 650;
+  }
+
+  .prose blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    font-size: var(--text-lg);
+  }
+
+  .prose :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--glaze);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  .prose pre {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    tab-size: 2;
+  }
+
+  .prose img {
+    border-radius: 4px;
+  }
+
+  .prose figure,
+  .prose pre {
+    margin-block: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

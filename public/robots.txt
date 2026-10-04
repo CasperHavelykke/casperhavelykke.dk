@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://casperhavelykke.dk/sitemap-index.xml

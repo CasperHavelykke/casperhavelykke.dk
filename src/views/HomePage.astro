@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import MeasuredName from '../components/MeasuredName.astro';
+import ProjectItem from '../components/ProjectItem.astro';
+import { site } from '../config';
+import { skills } from '../data/skills';
+import { getProjects } from '../lib/projects';
+import { routes } from '../i18n/routes';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const featured = (await getProjects(lang)).filter((project) => project.data.featured);
+const cv = site.cv[lang];
+---
+
+<Base
+  lang={lang}
+  title={t('home.title')}
+  description={t('home.description')}
+  alternates={routes.home}
+  isHome
+>
+  <section class="wrap pt-8 md:pt-14">
+    <MeasuredName name={site.name} label={t('measure.label')} />
+    <p class="mt-10 max-w-[34ch] text-lg md:text-xl">{t('home.intro')}</p>
+    <p class="mt-4 max-w-[46ch] text-muted">
+      {t('home.available')}
+      {site.location && ` ${t('home.location', { location: site.location })}`}
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={routes.projects[lang]} class="button button-solid">{t('home.cta.projects')}</a>
+      {cv && <a href={cv} class="button">{t('home.cta.cv')}</a>}
+    </div>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <section class="wrap mt-24 md:mt-32" aria-labelledby="udvalgte">
+        <div class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+          <h2 id="udvalgte" class="text-2xl font-bold">
+            {t('home.featured')}
+          </h2>
+          <a href={routes.projects[lang]}>{t('home.allProjects')}</a>
+        </div>
+        <ul class="mt-10 space-y-16 md:space-y-20">
+          {featured.map((project) => (
+            <li>
+              <ProjectItem project={project} lang={lang} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="wrap mt-24 md:mt-32" aria-labelledby="vaerktoej">
+    <h2 id="vaerktoej" class="text-2xl font-bold">{t('home.skills')}</h2>
+    <div class="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        skills[lang].map((group) => (
+          <div>
+            <h3 class="font-bold">{group.title}</h3>
+            <ul class="mt-2 space-y-1 text-muted">
+              {group.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>

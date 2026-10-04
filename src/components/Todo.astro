@@ -1,0 +1,27 @@
+---
+/**
+ * Marks text that still has to be written. Usable in every MDX file without
+ * an import. `npm run check:launch` lists every one that is left.
+ */
+---
+
+<aside class="todo">
+  <strong class="todo-label">TODO</strong>
+  <slot />
+</aside>
+
+<style>
+  .todo {
+    padding: 0.75rem 1rem;
+    border: 1.5px dashed var(--accent);
+    border-radius: 4px;
+    color: var(--muted);
+  }
+
+  .todo-label {
+    margin-right: 0.5rem;
+    color: var(--accent);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+</style>

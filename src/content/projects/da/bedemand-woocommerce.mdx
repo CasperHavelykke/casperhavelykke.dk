@@ -1,0 +1,104 @@
+---
+title: Begravelsen sammensat online i ni trin
+summary: En bestillingsformular i WooCommerce, hvor de pårørende sammensætter begravelsen trin for trin og bagefter bliver ringet op af bedemanden.
+kind: client
+year: '2025'
+role: Eneste udvikler, ansat hos Brating
+tech: [WordPress, WooCommerce, Composite Products, PHP, JavaScript, jQuery, CSS, Google Tag Manager]
+cover: ../../../assets/projects/bedemand/kistepynt.png
+coverAlt: Trinnet Kistepynt med blomsterdekorationer og den flydende pris nederst på skærmen
+# links:
+#   live: https://bedemand-haack.dk/vare/begravelseshjaelp/
+featured: true
+order: 1
+draft: true
+---
+
+import baand from '../../../assets/projects/bedemand/baand.png';
+import gennemse from '../../../assets/projects/bedemand/gennemse-og-bestil.png';
+
+<Todo>Spørg Brating, om casen må nævne bedemanden og linke til den live side. Får du et ja, så fjern `#` foran `links` og `live` i toppen af filen, og skriv gerne bedemandens navn i teksten. Indtil da er casen anonym.</Todo>
+
+Jeg byggede løsningen alene over 3–4 måneder i 2025, mens jeg var ansat hos Brating, og brugte AI som værktøj undervejs.
+
+## Udfordringen
+
+Før skulle de pårørende ringe til bedemanden og have papirformularer udleveret, hvor alle valg blev skrevet ned. Bedemanden ville gøre det muligt at sammensætte begravelsen online: område, ceremoni, kiste, urne, blomster, bånd og de praktiske oplysninger.
+
+Der skulle ikke betales noget online. Formularen er en bestilling af et opkald, hvor de pårørende i grove træk viser, hvordan begravelsen skal være. Det passer dårligt til WooCommerce, som er bygget til at sælge varer med kurv og betaling.
+
+## Løsningen
+
+Composite Products står for selve trinnene. Resten byggede jeg med WordPress- og WooCommerce-hooks i et child theme, så hverken WooCommerce eller pluginnet er ændret, og begge stadig kan opdateres.
+
+- **Fra kurv til opkald.** "Tilføj til kurv" hedder "Fortsæt", kurven springes over, og man sendes direkte til kassen for at sende bestillingen.
+- **Prisen følger med.** En flydende prisboks viser det samlede overslag, mens man vælger. Mere om den herunder.
+- **Oplysningerne én gang.** Composite Products gentager formularfelterne for hver del af bestillingen. To filtre sørger for, at oplysningerne om pårørende, afdøde og ceremoni kun står én gang på ordren.
+- **Felter, når de skal bruges.** Vælger man at tilkøbe bånd, glider to tekstfelter frem til teksten på båndene, og teksten følger med hele vejen til ordren.
+- **Et afsnit ad gangen.** På det sidste trin er de praktiske oplysninger delt op i afsnit, hvor kun ét er åbent ad gangen, og formularen går selv videre til det næste.
+- **På dansk og i bedemandens stil.** Pluginnets tekster er oversat med et gettext-filter, flere skabeloner er overskrevet, og formularen er stylet, så den passer til resten af hjemmesiden.
+- **Måling.** Afsendte bestillinger sendes til Google Analytics via Tag Manager, med et værn mod at de tælles to gange.
+
+<Figure src={baand} alt="Trinnet Bånd, hvor Tilkøb bånd er valgt, og to tekstfelter er vist under valgene" caption="Felterne til båndenes tekst vises kun, når man har valgt at tilkøbe bånd." />
+
+Prisintervaller vises som "Fra" og den laveste pris. I stedet for at røre pluginnet ændrer et filter de tekster, som pluginnets eget JavaScript bruger:
+
+```php
+add_filter('woocommerce_composite_front_end_params', 'change_price_range_to_from_format', 10, 1);
+
+function change_price_range_to_from_format($params) {
+    $params['i18n_price_range_string'] = sprintf(_x('Fra %s', 'Price range - From (relative)', 'woocommerce-composite-products'), '%f');
+    // … og det samme for i18n_price_range_string_absolute og _plain
+    return $params;
+}
+```
+
+## Den flydende pris
+
+Formularen er lang, så det samlede overslag skal altid kunne ses. Prisboksen ligger fast nederst på skærmen og opdateres, hver gang et valg ændres:
+
+- Prisen læses fra Composite Products' egen datamodel. Er den ikke klar, læses priserne i stedet fra siden og lægges sammen.
+- JavaScript forstår ikke danske priser som 18.340,00, så de omregnes til tal og formateres tilbage med `toLocaleString('da-DK')`.
+- Boksen lytter på pluginnets egne hændelser og på skift mellem trin, og den giver et lille pulsslag, når prisen ændrer sig.
+
+Omregningen af danske priser, lidt forkortet:
+
+```js
+function parseDanishPrice(priceText) {
+    // Fjern valutasymbol og ekstra mellemrum
+    priceText = priceText.replace(/[^\d.,]/g, '').trim();
+
+    // Dansk format: 18.340,00 -> 18340.00
+    if (priceText.includes('.') && priceText.includes(',')) {
+        priceText = priceText.replace(/\./g, '').replace(',', '.');
+    } else if (priceText.includes(',')) {
+        var parts = priceText.split(',');
+        if (parts.length === 2 && parts[1].length <= 2) {
+            // Decimalseparator: 1234,56 -> 1234.56
+            priceText = priceText.replace(',', '.');
+        } else {
+            // Tusindtalsseparator: 1,234 -> 1234
+            priceText = priceText.replace(/,/g, '');
+        }
+    }
+
+    var price = parseFloat(priceText);
+    return isNaN(price) ? 0 : price;
+}
+```
+
+## Det sværeste
+
+Købsflowet. Valgene skulle følge med hele vejen fra formularen over kassen til den afsendte bestilling og vises rigtigt for bedemanden i WooCommerce. Composite Products deler en bestilling op i mange dele, så det krævede en del fejlsøgning, før alle valg og felter kom med hele vejen. Jeg blev ved med at følge data trin for trin og rette til, indtil det hele virkede.
+
+## Resultatet
+
+Formularen er i brug på bedemandens hjemmeside. De pårørende kan se og sammensætte hele begravelsen online med det samme i stedet for at ringe og udfylde papirformularer. Når bedemanden ringer op, ligger valgene allerede klar.
+
+<Figure src={gennemse} alt="Det sidste trin, Gennemse og bestil, med et kort for hvert valg og afsnittet Pårørende foldet ud" caption="Det sidste trin samler alle valg, så de kan rettes, før bestillingen sendes." />
+
+## Det ville jeg gøre anderledes i dag
+
+- Lytte udelukkende på Composite Products' egne hændelser i stedet for at vente med korte pauser (`setTimeout`), før prisen læses.
+- Flytte JavaScript ud af PHP-filerne og ind i egne filer, så det er nemmere at teste og vedligeholde.
+- Undgå faste produkt-id'er i koden, så formularen ikke går i stykker, hvis et produkt bliver oprettet på ny.

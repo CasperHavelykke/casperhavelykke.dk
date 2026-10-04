@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { routes } from '../i18n/routes';
+---
+
+<Base lang="da" title="Siden findes ikke" description="Siden findes ikke." alternates={routes.home} noindex>
+  <div class="wrap pt-10 md:pt-16">
+    <h1 class="text-3xl font-bold md:text-4xl">Siden findes ikke</h1>
+    <p class="mt-5 max-w-[46ch] text-lg">
+      Adressen er måske skrevet forkert, eller siden er flyttet. Gå til <a href={routes.home.da}>forsiden</a>
+      eller se <a href={routes.projects.da}>alle projekter</a>.
+    </p>
+    <p class="mt-4 max-w-[46ch] text-muted" lang="en">
+      This page doesn’t exist. Go to the <a href={routes.home.en}>English front page</a>.
+    </p>
+  </div>
+</Base>

@@ -1,0 +1,119 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import Figure from '../components/Figure.astro';
+import Todo from '../components/Todo.astro';
+import { getProjectAlternates, getProjects, projectSlug, type Project } from '../lib/projects';
+import { projectPath, routes } from '../i18n/routes';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  project: Project;
+}
+
+const { lang, project } = Astro.props;
+const t = useTranslations(lang);
+const { title, summary, kind, year, role, tech, links, draft } = project.data;
+const { Content } = await render(project);
+
+const all = await getProjects(lang);
+const next = all.length > 1 ? all[(all.findIndex((p) => p.id === project.id) + 1) % all.length] : null;
+
+const linkList = [
+  links.live && { href: links.live, label: t('project.link.live') },
+  links.appStore && { href: links.appStore, label: t('project.link.appStore') },
+  links.googlePlay && { href: links.googlePlay, label: t('project.link.googlePlay') },
+  links.repo && { href: links.repo, label: t('project.link.repo') },
+].filter((link) => !!link);
+---
+
+<Base lang={lang} title={title} description={summary} alternates={await getProjectAlternates(project)}>
+  <article class="wrap pt-10 md:pt-16">
+    <a href={routes.projects[lang]} class="text-muted">{t('project.back')}</a>
+
+    <header class="mt-8">
+      {
+        draft && (
+          <p class="mb-3 inline-block rounded-full border border-current px-3 py-0.5 text-sm text-muted">
+            {t('project.draft')}
+          </p>
+        )
+      }
+      <h1 class="max-w-[22ch] text-3xl font-bold md:text-4xl">{title}</h1>
+      <p class="mt-5 max-w-[44ch] text-lg md:text-xl">{summary}</p>
+    </header>
+
+    <div class="mt-10 md:mt-14">
+      <Cover project={project} lang={lang} sizes="(min-width: 74rem) 70rem, 100vw" wide eager />
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-12">
+      <aside class="md:order-2 md:col-span-4 md:col-start-9" aria-label={t('project.meta')}>
+        <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-sm md:grid-cols-1 md:gap-y-1">
+          <dt class="text-muted">{t('project.type')}</dt>
+          <dd class="md:mb-4">{t(`project.kind.${kind}` as const)}</dd>
+          {
+            year && (
+              <>
+                <dt class="text-muted">{t('project.year')}</dt>
+                <dd class="md:mb-4">{year}</dd>
+              </>
+            )
+          }
+          {
+            role && (
+              <>
+                <dt class="text-muted">{t('project.role')}</dt>
+                <dd class="md:mb-4">{role}</dd>
+              </>
+            )
+          }
+          {
+            tech.length > 0 && (
+              <>
+                <dt class="text-muted">{t('project.tech')}</dt>
+                <dd class="md:mb-4">{tech.join(', ')}</dd>
+              </>
+            )
+          }
+          {
+            linkList.length > 0 && (
+              <>
+                <dt class="text-muted">{t('project.links')}</dt>
+                <dd>
+                  <ul>
+                    {linkList.map(({ href, label }) => (
+                      <li>
+                        <a href={href}>{label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )
+          }
+        </dl>
+      </aside>
+
+      <div class="prose md:col-span-8">
+        <Content components={{ Todo, Figure }} />
+      </div>
+    </div>
+
+    {
+      next && (
+        <nav class="mt-24 border-t border-line pt-6" aria-label={t('project.next')}>
+          <p class="text-sm text-muted">{t('project.next')}</p>
+          <a
+            href={projectPath(lang, projectSlug(next))}
+            class="mt-1 inline-block text-xl font-bold text-ink-strong no-underline hover:underline md:text-2xl"
+          >
+            {next.data.title}
+          </a>
+        </nav>
+      )
+    }
+  </article>
+</Base>
