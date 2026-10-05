@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectItem from '../components/ProjectItem.astro';
+import { freelance } from '../data/freelance';
 import { getProjects } from '../lib/projects';
 import { routes } from '../i18n/routes';
 import { useTranslations, type Lang } from '../i18n/ui';
@@ -15,7 +16,7 @@ const projects = await getProjects(lang);
 
 const groups = [
   { id: 'kunder', title: t('projects.client'), items: projects.filter((p) => p.data.kind === 'client') },
-  { id: 'egne', title: t('projects.personal'), items: projects.filter((p) => p.data.kind === 'personal') },
+  { id: 'egne', title: t('projects.personal'), items: projects.filter((p) => p.data.kind !== 'client') },
 ];
 ---
 
@@ -45,6 +46,26 @@ const groups = [
             </ul>
           ) : (
             <p class="mt-4 text-muted">{t('projects.empty')}</p>
+          )}
+
+          {group.id === 'kunder' && (
+            <section class="mt-16" aria-labelledby="freelance">
+              <h3 id="freelance" class="text-xl font-bold">
+                {t('projects.freelance')}
+              </h3>
+              <p class="mt-2 max-w-[46ch] text-muted">{t('projects.freelanceIntro')}</p>
+              <ul class="mt-6 border-t border-line">
+                {freelance.map((job) => (
+                  <li class="grid grid-cols-[1fr_auto] gap-x-6 border-b border-line py-3 sm:grid-cols-[13rem_1fr_auto]">
+                    <span class="font-semibold text-ink-strong">
+                      {job.url ? <a href={job.url}>{job.name}</a> : job.name}
+                    </span>
+                    <span class="text-sm text-muted tabular-nums sm:order-last sm:text-base">{job.year}</span>
+                    <span class="col-span-2 text-muted sm:col-span-1">{job.work[lang]}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
           )}
         </section>
       ))

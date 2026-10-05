@@ -1,0 +1,60 @@
+---
+title: Røket
+summary: En app mod ensomhed, hvor man ser, hvad folk i nærheden laver lige nu, og kan invitere til eller deltage i aktiviteter. Bygget i React Native og Firebase og udgivet i Google Play.
+kind: personal
+year: '2026'
+tech: [React Native, TypeScript, Firebase, Firestore, Cloud Functions, Google Cloud Vision, Reanimated]
+links:
+  live: https://roketapp.eu/
+  googlePlay: https://play.google.com/store/apps/details?id=com.roket
+cover: ../../../assets/projects/roket/cover.png
+coverAlt: Tre skærme fra Røket, kortet med aktiviteter i nærheden, listen over aktiviteterne og en gruppechat
+featured: true
+order: 3
+draft: true
+---
+
+import kort from '../../../assets/projects/roket/kort.png';
+import liste from '../../../assets/projects/roket/liste.png';
+import aktivitet from '../../../assets/projects/roket/aktivitet.png';
+import chat from '../../../assets/projects/roket/chat.png';
+
+Røket er mit største og mest gennemarbejdede egne projekt. Idéen er at gøre det nemt at lave noget sammen med folk i nærheden, fx en kop kaffe, en gåtur eller et brætspil, i stedet for at scrolle gennem profiler.
+
+<Screens
+  images={[
+    { src: kort, alt: 'Kortet over København med aktiviteter som markører og tidsvinduet nederst' },
+    { src: liste, alt: 'Listen over fem aktiviteter i nærheden, sorteret efter afstand' },
+    { src: aktivitet, alt: 'En aktivitet, Coffee and a chat, med tid, sted, deltagere og en knap til at deltage' },
+    { src: chat, alt: 'Gruppechatten for aktiviteten' },
+  ]}
+  caption="Kortet, aktiviteterne i nærheden, en enkelt aktivitet og gruppechatten."
+/>
+
+## Det kan appen
+
+- **Et levende kort.** Forsiden viser, hvad folk i nærheden laver lige nu, med en liste over de samme aktiviteter sorteret efter afstand.
+- **Et tidsvindue.** Man trækker et vindue på tre timer hen over døgnet for at se, hvad der sker senere. Det kører i 60 fps på UI-tråden med Reanimated, og kort og liste filtreres med det samme.
+- **Åbne invitationer.** Man opretter en aktivitet, andre i nærheden kan deltage, og hver aktivitet får sin egen gruppechat.
+- **Hold kontakten.** Efter en aktivitet kan man bede om at holde kontakten og få en privat chat.
+- **Gæstetilstand.** Man kan se hele appen uden en konto, og anonyme konti ryddes automatisk op efter 30 dage.
+- **Seks sprog og mørkt tema.** Dansk, engelsk, spansk, tysk, fransk og portugisisk, og kortet skifter stil med temaet.
+
+## Sådan er den bygget
+
+Appen er skrevet i React Native med TypeScript og bruger Firebase til login, database, filer og push-beskeder. Alt, der kræver særlige rettigheder, ligger i Cloud Functions, så det aldrig afgøres i appen:
+
+- **Forbindelser som en tilstandsmaskine.** At bryde, genanmode og blokere er envejsovergange, som Firestores sikkerhedsregler kun lader hver bruger sætte én gang. Cloud Functions rydder op bagefter.
+- **Moderering af billeder.** Uploadede billeder scannes med Google Cloud Vision, og upassende billeder fjernes og logges automatisk. Ovenpå er der rapportering, advarsler og udelukkelser, og billeder i chats slettes efter 12 timer.
+- **Egne kortmarkører.** Markørerne er React-komponenter i appens tema. Med React Natives nye arkitektur krævede det en særlig løsning, før de blev tegnet rigtigt på kortet.
+- **Sprog uden huller.** Alle tekster ligger ét sted med en type, der er afledt af ét af sprogene. Mangler en oversættelse, fejler det allerede, når koden bygges.
+
+## Det sværeste
+
+<Todo>Hvad var sværest? Fx kortmarkørerne på den nye arkitektur, tilstandsmaskinen for forbindelser eller modereringen.</Todo>
+
+## Status
+
+Røket er udgivet i Google Play.
+
+<Todo>Skriv gerne, hvordan det går, fx antal brugere eller aktiviteter, og hvad der er det næste.</Todo>

@@ -23,7 +23,7 @@ const projects = defineCollection({
     z.object({
       title: z.string(),
       summary: z.string(),
-      kind: z.enum(['client', 'personal']),
+      kind: z.enum(['client', 'personal', 'study']),
       year: z.string().optional(),
       role: z.string().optional(),
       tech: z.array(z.string()).default([]),

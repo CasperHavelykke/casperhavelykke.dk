@@ -250,6 +250,7 @@
     background: var(--glaze);
     padding: 0.1em 0.35em;
     border-radius: 3px;
+    overflow-wrap: anywhere;
   }
 
   .prose pre {

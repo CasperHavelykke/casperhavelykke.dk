@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import Figure from '../components/Figure.astro';
+import Screens from '../components/Screens.astro';
 import Todo from '../components/Todo.astro';
 import { getProjectAlternates, getProjects, projectSlug, type Project } from '../lib/projects';
 import { projectPath, routes } from '../i18n/routes';
@@ -98,7 +99,7 @@ const linkList = [
       </aside>
 
       <div class="prose md:col-span-8">
-        <Content components={{ Todo, Figure }} />
+        <Content components={{ Todo, Figure, Screens }} />
       </div>
     </div>
 

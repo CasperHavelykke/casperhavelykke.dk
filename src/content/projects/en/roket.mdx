@@ -1,0 +1,60 @@
+---
+title: Røket
+summary: An anti-loneliness app that shows what people nearby are doing right now and lets you post or join activities. Built with React Native and Firebase and published on Google Play.
+kind: personal
+year: '2026'
+tech: [React Native, TypeScript, Firebase, Firestore, Cloud Functions, Google Cloud Vision, Reanimated]
+links:
+  live: https://roketapp.eu/
+  googlePlay: https://play.google.com/store/apps/details?id=com.roket
+cover: ../../../assets/projects/roket/cover.png
+coverAlt: Three screens from Røket, the map with activities nearby, the list of activities and a group chat
+featured: true
+order: 3
+draft: true
+---
+
+import kort from '../../../assets/projects/roket/kort.png';
+import liste from '../../../assets/projects/roket/liste.png';
+import aktivitet from '../../../assets/projects/roket/aktivitet.png';
+import chat from '../../../assets/projects/roket/chat.png';
+
+Røket is my biggest and most polished personal project. The idea is to make it easy to do something with people nearby, like a coffee, a walk or a board game, instead of scrolling through profiles.
+
+<Screens
+  images={[
+    { src: kort, alt: 'The map of Copenhagen with activities as markers and the time window at the bottom' },
+    { src: liste, alt: 'The list of five activities nearby, sorted by distance' },
+    { src: aktivitet, alt: 'An activity, Coffee and a chat, with time, place, participants and a button to join' },
+    { src: chat, alt: 'The group chat for the activity' },
+  ]}
+  caption="The map, the activities nearby, a single activity and the group chat."
+/>
+
+## What the app does
+
+- **A live map.** The front page shows what people nearby are doing right now, with a list of the same activities sorted by distance.
+- **A time window.** You drag a three-hour window along the day to see what's happening later. It runs at 60 fps on the UI thread with Reanimated, and the map and list filter instantly.
+- **Open invitations.** You post an activity, people nearby can join, and every activity gets its own group chat.
+- **Keep in touch.** After an activity, you can ask to stay in touch and get a private chat.
+- **Guest mode.** You can see the whole app without an account, and anonymous accounts are cleaned up automatically after 30 days.
+- **Six languages and a dark theme.** Danish, English, Spanish, German, French and Portuguese, and the map changes style with the theme.
+
+## How it's built
+
+The app is written in React Native with TypeScript and uses Firebase for sign-in, the database, files and push notifications. Anything that needs special permissions lives in Cloud Functions, so it's never decided in the app:
+
+- **Connections as a state machine.** Breaking, re-requesting and blocking are one-way transitions that Firestore security rules let each user set exactly once. Cloud Functions clean up afterwards.
+- **Image moderation.** Uploaded images are scanned with Google Cloud Vision, and unsafe images are removed and logged automatically. On top of that there are reports, warnings and bans, and chat photos are deleted after 12 hours.
+- **Custom map markers.** The markers are themed React components. With React Native's New Architecture, they needed a dedicated workaround before they rendered correctly on the map.
+- **No gaps in translations.** All copy lives in one place with a type derived from one of the languages, so a missing translation fails as soon as the code is built.
+
+## The hardest part
+
+<Todo>What was hardest? For example the map markers on the New Architecture, the connection state machine or the moderation.</Todo>
+
+## Status
+
+Røket is published on Google Play.
+
+<Todo>Add how it's going, for example the number of users or activities, and what's next.</Todo>

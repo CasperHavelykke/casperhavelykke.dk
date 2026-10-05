@@ -1,0 +1,32 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+/**
+ * A row of phone screenshots with one shared caption. Usable in every
+ * project's MDX without an import; the images themselves are imported in the MDX.
+ */
+interface Props {
+  images: { src: ImageMetadata; alt: string }[];
+  caption?: string;
+}
+
+const { images, caption } = Astro.props;
+---
+
+<figure>
+  <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    {
+      images.map(({ src, alt }) => (
+        <Image
+          src={src}
+          alt={alt}
+          widths={[240, 480]}
+          sizes="(min-width: 40rem) 10rem, 45vw"
+          class="h-auto w-full rounded-[12px] border-[1.5px] border-line"
+        />
+      ))
+    }
+  </div>
+  {caption && <figcaption class="mt-2 text-sm text-muted">{caption}</figcaption>}
+</figure>

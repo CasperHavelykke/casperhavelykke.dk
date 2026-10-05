@@ -1,0 +1,30 @@
+---
+title: Pejling
+summary: En genstandstæller til byturen. Man trykker, hver gang man drikker noget, og appen viser, hvor mange genstande der stadig er aktive i kroppen. Udgivet i App Store.
+kind: personal
+year: '2026'
+tech: [React Native, Expo, TypeScript, Expo Router, SQLite]
+links:
+  live: https://pejlingapp.dk/
+  appStore: https://apps.apple.com/app/pejling/id6817084330
+order: 5
+draft: true
+---
+
+<Todo>Tag 3–4 skærmbilleder på telefonen og læg dem i `src/assets/projects/pejling/`, så sætter vi dem ind ligesom hos Røket.</Todo>
+
+Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto eller server.
+
+## Sådan regner den
+
+- En genstand er 12 g alkohol. Promillen anslås med Widmarks formel ud fra vægt og køn, og kroppen forbrænder ca. 0,15 promille i timen. Aktive genstande er promillen regnet tilbage til genstande.
+- En aften lukker af sig selv, når kroppen har været på nul i mere end tre timer, og den gemmes i historikken.
+- Vægt og køn gemmes med hver indtastning, så gamle aftener ikke ændrer sig, når man retter sine indstillinger.
+
+Appen er vejledende. Den måler ikke promille og kan ikke bruges til at vurdere, om man må køre.
+
+## Sådan er den bygget
+
+- Beregningen ligger i ren TypeScript uden UI og er dækket af tests.
+- Data gemmes i SQLite på telefonen og i localStorage, når appen kører i browseren.
+- En kalender viser tidligere aftener, og farven viser aftenens højeste antal aktive genstande.

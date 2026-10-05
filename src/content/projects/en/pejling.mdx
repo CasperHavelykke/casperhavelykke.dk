@@ -1,0 +1,30 @@
+---
+title: Pejling
+summary: A drink counter for a night out. You tap every time you have a drink, and the app shows how many standard drinks are still active in your body. Published on the App Store.
+kind: personal
+year: '2026'
+tech: [React Native, Expo, TypeScript, Expo Router, SQLite]
+links:
+  live: https://pejlingapp.dk/
+  appStore: https://apps.apple.com/app/pejling/id6817084330
+order: 5
+draft: true
+---
+
+<Todo>Take 3–4 screenshots on your phone and put them in `src/assets/projects/pejling/`, and we'll add them like on Røket.</Todo>
+
+Pejling is a React Native app built with Expo, and it's pure frontend. Everything stays on the phone, with no account and no server.
+
+## How it calculates
+
+- One standard drink is 12 g of alcohol. Blood alcohol is estimated with Widmark's formula from weight and sex, and the body burns about 0.15 per mille an hour. Active drinks are the blood alcohol converted back into drinks.
+- A night closes by itself once the body has been at zero for more than three hours, and it's saved to the history.
+- Weight and sex are stored with every entry, so past nights don't change when you edit your settings.
+
+The app is indicative only. It doesn't measure blood alcohol and can't be used to judge whether you can drive.
+
+## How it's built
+
+- The calculation lives in plain TypeScript without UI and is covered by tests.
+- Data is stored in SQLite on the phone and in localStorage when the app runs in the browser.
+- A calendar shows past nights, and the colour shows each night's highest number of active drinks.

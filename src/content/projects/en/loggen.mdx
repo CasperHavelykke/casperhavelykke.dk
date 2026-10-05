@@ -1,0 +1,42 @@
+---
+title: Loggen
+summary: My personal dashboard for everything I log day to day, with statistics on all of it. It runs on my own server and connects to AI assistants through an MCP server with its own OAuth 2.0.
+kind: personal
+year: '2026'
+tech: [Next.js, TypeScript, SQLite, Drizzle ORM, Auth.js, OAuth 2.0, MCP, Caddy, Ubuntu Server]
+links:
+  live: https://demo.loggen.app
+  repo: https://github.com/CasperHavelykke/log
+order: 6
+draft: true
+---
+
+<Todo>Take a few screenshots from demo.loggen.app and put them in `src/assets/projects/loggen/`.</Todo>
+
+Loggen is built for me. I log almost everything, from sleep, training and food to job applications, and Loggen turns it into statistics. Others can sign up, but it's tailored to my needs, so the backend is the interesting part here. There's a demo with fictional data at demo.loggen.app.
+
+## Why it runs in my apartment
+
+Loggen holds the most personal data I have. It started on Vercel and Turso, but I deliberately moved it to a small server in my apartment: Ubuntu, one SQLite file, files on local disk, and Caddy with certificates from Let's Encrypt. No third party has technical access to the data.
+
+## AI assistants through MCP
+
+Loggen has an MCP server with 63 tools, so an AI assistant like Claude or ChatGPT can log "12 g glycine" or answer "what's on my plan today?". Access is controlled by an OAuth 2.0 server I wrote myself:
+
+- Authorization code flow with mandatory PKCE, S256 only
+- Client secrets stored as bcrypt hashes and tokens as SHA-256 hashes
+- Single-use codes consumed atomically with `DELETE … RETURNING`
+- Rate limiting on the token endpoint and uniform errors, so clients can't be guessed
+
+Every MCP request gets its own server instance, so no state is shared between requests.
+
+## Backend choices
+
+- **Every server action re-checks sign-in**, and every query is scoped to the user's own data. They're treated as public endpoints, because that's what they are.
+- **Decimals are stored as integers**, multiplied by 10 or 100, so health data never drifts from rounding.
+- **Only what changed gets written.** The app, the AI and a second device can write at the same time without overwriting each other.
+- **Backups** export the database and files as one ZIP file, and imports check the data and file paths before anything is deleted.
+
+## Hosting
+
+A small script pulls the code, builds, migrates the databases and restarts two systemd services: the real app and the demo, which resets every night. It's the same server this site will run on.

@@ -1,0 +1,42 @@
+---
+title: Loggen
+summary: Mit personlige dashboard til alt, jeg logger i hverdagen, med statistik over det hele. Det kører på min egen server og er koblet til AI-assistenter gennem en MCP-server med egen OAuth 2.0.
+kind: personal
+year: '2026'
+tech: [Next.js, TypeScript, SQLite, Drizzle ORM, Auth.js, OAuth 2.0, MCP, Caddy, Ubuntu Server]
+links:
+  live: https://demo.loggen.app
+  repo: https://github.com/CasperHavelykke/log
+order: 6
+draft: true
+---
+
+<Todo>Tag et par skærmbilleder fra demo.loggen.app og læg dem i `src/assets/projects/loggen/`.</Todo>
+
+Loggen er bygget til mig selv. Jeg logger næsten alt, fra søvn, træning og kost til jobansøgninger, og Loggen laver statistik over det hele. Andre kan oprette sig, men den er skræddersyet til mine behov, så det er backenden, der er det interessante her. Der er en demo med opdigtede data på demo.loggen.app.
+
+## Hvorfor den kører hjemme hos mig
+
+Loggen indeholder de mest personlige data, jeg har. Den startede på Vercel og Turso, men jeg flyttede den bevidst til en lille server i min lejlighed: Ubuntu, én SQLite-fil, filer på lokal disk og Caddy med certifikater fra Let's Encrypt. Ingen tredjepart har teknisk adgang til data.
+
+## AI-assistenter via MCP
+
+Loggen har en MCP-server med 63 værktøjer, så en AI-assistent som Claude eller ChatGPT kan logge "12 g glycin" eller svare på "hvad står der på min plan i dag?". Adgangen styres af en OAuth 2.0-server, jeg selv har skrevet:
+
+- Authorization code-flow med obligatorisk PKCE, kun med S256
+- Klienthemmeligheder gemt som bcrypt-hashes og tokens som SHA-256-hashes
+- Engangskoder, der bruges atomisk med `DELETE … RETURNING`
+- Rate limiting på token-endpointet og ens fejlbeskeder, så man ikke kan gætte sig til klienter
+
+Hver MCP-forespørgsel får sin egen serverinstans, så der ikke deles tilstand mellem forespørgsler.
+
+## Valg i backenden
+
+- **Hver server action tjekker login igen**, og hver forespørgsel er afgrænset til brugerens egne data. De behandles som offentlige endpoints, for det er de.
+- **Decimaltal gemmes som heltal**, ganget med 10 eller 100, så sundhedsdata aldrig får afrundingsfejl.
+- **Kun det ændrede bliver skrevet.** Appen, AI'en og en anden enhed kan skrive samtidig uden at overskrive hinanden.
+- **Backup** eksporterer database og filer som én ZIP-fil, og ved import tjekkes data og filstier, før noget bliver slettet.
+
+## Drift
+
+Et lille script henter koden, bygger, migrerer databaserne og genstarter to systemd-tjenester: den rigtige app og demoen, som nulstilles hver nat. Det er den samme server, som denne side kommer til at køre på.

@@ -11,15 +11,15 @@ export const skills: Record<Lang, Group[]> = {
     },
     {
       title: 'Apps',
-      items: ['React Native', 'Progressive Web Apps', 'Udgivelse i App Store og Google Play'],
+      items: ['React Native og Expo', 'Progressive Web Apps', 'Udgivelse i App Store og Google Play'],
     },
     {
       title: 'Webshops og CMS',
-      items: ['Shopify og Liquid', 'WooCommerce', 'WordPress', 'PHP'],
+      items: ['Shopify og Liquid', 'WooCommerce', 'WordPress, Elementor og Divi', 'PHP'],
     },
     {
       title: 'Backend og drift',
-      items: ['Node.js', 'Prisma og MariaDB', 'Auth.js', 'Linux-server med Caddy'],
+      items: ['Node.js og GraphQL', 'Firebase og Firestore', 'SQLite og Drizzle', 'OAuth 2.0 og MCP', 'Linux-server med Caddy'],
     },
   ],
   en: [
@@ -29,15 +29,15 @@ export const skills: Record<Lang, Group[]> = {
     },
     {
       title: 'Apps',
-      items: ['React Native', 'Progressive Web Apps', 'Publishing to the App Store and Google Play'],
+      items: ['React Native and Expo', 'Progressive Web Apps', 'Publishing to the App Store and Google Play'],
     },
     {
       title: 'E-commerce and CMS',
-      items: ['Shopify and Liquid', 'WooCommerce', 'WordPress', 'PHP'],
+      items: ['Shopify and Liquid', 'WooCommerce', 'WordPress, Elementor and Divi', 'PHP'],
     },
     {
       title: 'Backend and hosting',
-      items: ['Node.js', 'Prisma and MariaDB', 'Auth.js', 'Linux server with Caddy'],
+      items: ['Node.js and GraphQL', 'Firebase and Firestore', 'SQLite and Drizzle', 'OAuth 2.0 and MCP', 'Linux server with Caddy'],
     },
   ],
 };
