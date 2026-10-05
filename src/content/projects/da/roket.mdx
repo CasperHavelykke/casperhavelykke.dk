@@ -52,7 +52,11 @@ Appen er skrevet i React Native med TypeScript og bruger Firebase til login, dat
 
 ## Det sværeste
 
-<Todo>Hvad var sværest? Fx kortmarkørerne på den nye arkitektur, tilstandsmaskinen for forbindelser eller modereringen.</Todo>
+Hele brugerrejsen i chatten. En chat ser enkel ud, men en samtale i Røket kan være i mange tilstande: Aktiviteten kan være slut, den ene kan have slettet samtalen eller blokeret den anden, og en gæst uden konto skal have forklaret, hvorfor der ikke er nogen beskeder. Hver tilstand skal vise de rigtige knapper, informationer og fejlbeskeder på alle seks sprog. Det krævede meget test og tilretning, før alt virkede og så ordentligt ud. Chatskærmene alene er ændret i 35 commits. Tre eksempler:
+
+- **Slettede samtaler.** Når den ene sletter en privat samtale, slettes beskederne på serveren, og chatten låses. Den anden ser en systembesked, og feltet til at skrive bliver erstattet af knapper til at anmode om kontakt igen eller slette samtalen helt. Jeg testede forløbet fra ende til anden på to enheder.
+- **Nye beskeder.** En besked, man lige har sendt, har ikke noget tidspunkt, før serveren svarer, så datooverskriften sprang ind et øjeblik efter og skubbede til samtalen. Nu regnes en ventende besked som dagens, og nye beskeder vokser ind på plads, så resten af samtalen glider blødt op.
+- **Fejlbeskeder.** Fejl fra Firebase bliver oversat til en forståelig besked på brugerens sprog i stedet for en fejlkode. Undervejs fandt jeg også ud af, at appen gik ned, når man loggede ud, fordi Firestore afviste de lyttere, der stadig var aktive. Nu har alle lyttere, der kræver login, deres egen fejlhåndtering.
 
 ## Status
 

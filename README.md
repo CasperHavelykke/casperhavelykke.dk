@@ -57,12 +57,13 @@ Astro laver automatisk mindre udgaver i moderne formater. Billeder inde i selve 
 Kør `npm run check:launch`. Den viser hver TODO og hver kladde og afslutter med en fejl, så længe der er noget tilbage.
 
 - [ ] Alle cases er skrevet, og `draft: true` er fjernet.
-- [ ] Kunderne har sagt ja til at blive vist, eller casen er anonym.
-- [ ] Skærmbilleder er lagt ind med `cover` og `coverAlt`.
-- [ ] `src/config.ts`: mail, LinkedIn, GitHub, by og CV'er (PDF i `public/cv/`).
+- [x] Kunderne har sagt ja til at blive vist, eller casen er anonym.
+- [x] Skærmbilleder er lagt ind med `cover` og `coverAlt`.
+- [x] `src/config.ts`: mail, LinkedIn, GitHub, by og CV'er (PDF i `public/cv/`).
 - [ ] Delingsbillede på 1200×630 px i `public/`, angivet som `ogImage` i `src/config.ts`.
 - [ ] Teknologilisten i `src/data/skills.ts` er gennemgået.
 - [ ] Siden er tjekket på mobil, i lyst og mørkt tema og med tastatur.
+- [ ] Repoet på GitHub er gjort offentligt (*Settings → Change visibility*), så linket på "Om mig" virker.
 
 ## Drift
 

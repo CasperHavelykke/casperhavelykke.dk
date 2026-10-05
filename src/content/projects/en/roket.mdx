@@ -52,7 +52,11 @@ The app is written in React Native with TypeScript and uses Firebase for sign-in
 
 ## The hardest part
 
-<Todo>What was hardest? For example the map markers on the New Architecture, the connection state machine or the moderation.</Todo>
+The whole user journey in the chat. A chat looks simple, but a conversation in Røket can be in many states: the activity may have ended, one person may have deleted the conversation or blocked the other, and a guest without an account needs to be told why there are no messages. Every state has to show the right buttons, information and error messages in all six languages. It took a lot of testing and adjusting before everything worked and looked right. The chat screens alone have changed in 35 commits. Three examples:
+
+- **Deleted conversations.** When one person deletes a private conversation, the messages are deleted on the server and the chat is locked. The other person sees a system message, and the text field is replaced by buttons to request contact again or delete the conversation for good. I tested the flow end to end on two devices.
+- **New messages.** A message you've just sent has no timestamp until the server responds, so the date heading popped in a moment later and shifted the conversation. Now a pending message counts as today's, and new messages grow into place, so the rest of the conversation slides up smoothly.
+- **Error messages.** Errors from Firebase are turned into a clear message in the user's language instead of an error code. Along the way I also found that the app crashed on sign-out, because Firestore rejected the listeners that were still active. Now every listener that needs a signed-in user has its own error handling.
 
 ## Status
 

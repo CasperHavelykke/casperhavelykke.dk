@@ -69,9 +69,12 @@ Try them below. They're recreated in React for this site, but they calculate the
 
 ## The hardest part
 
-<Todo>What was hardest? For example getting the calculators to work with the theme's own quantity field and cart, or setting up the metafields so Shopify could filter on them.</Todo>
+Fitting the calculators into the theme. A Shopify theme is a lot of code written by someone else, and the calculators had to work with the theme's own quantity field and cart in three different places. Finding the right places to hook in is a bit of a needle-in-a-haystack job, but that wasn't the worst part.
+
+The worst part was that Shopify doesn't carry code changes over when the theme is updated to a new version. The calculators would disappear with every update, so I followed up with a detailed guide on how to put the code back in.
 
 ## What I'd do differently today
 
+- Build the calculators as app blocks in a theme app extension. They live outside the theme's code, so they survive theme updates, and there's no need for a guide.
 - Read the roll width from a metafield instead of parsing it out of the variant name, such as "400 cm".
 - Put the JavaScript in separate files instead of directly in the sections, so it can be cached and tested.

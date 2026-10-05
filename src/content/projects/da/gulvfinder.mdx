@@ -68,9 +68,12 @@ Prøv dem herunder. De er genskabt i React til denne side, men regner på samme 
 
 ## Det sværeste
 
-<Todo>Hvad var sværest? Fx at få beregnerne til at spille sammen med temaets eget antalsfelt og kurv, eller at få metafelterne sat op, så Shopify kunne filtrere på dem.</Todo>
+At flette beregnerne ind i temaet. Et Shopify-tema er meget kode, som andre har skrevet, og beregnerne skulle spille sammen med temaets eget antalsfelt og kurv tre forskellige steder. Det er noget af et nål-i-en-høstak-arbejde at finde de rigtige steder at koble sig på, men det var ikke det værste.
+
+Det værste var, at Shopify ikke tager ændringer i koden med, når temaet opdateres til en ny version. Beregnerne ville altså forsvinde ved hver opdatering, så jeg fulgte op med en detaljeret guide til, hvordan koden sættes ind igen.
 
 ## Det ville jeg gøre anderledes i dag
 
+- Bygge beregnerne som app-blokke i en theme app extension. De ligger uden for temaets kode, så de overlever opdateringer af temaet, og der er ikke brug for en guide.
 - Læse rullebredden fra et metafelt i stedet for at aflæse den i variantens navn, fx "400 cm".
 - Lægge JavaScript i egne filer i stedet for direkte i sektionerne, så det kan caches og testes.
