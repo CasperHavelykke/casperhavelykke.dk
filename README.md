@@ -1,91 +1,74 @@
 # casperhavelykke.dk
 
-Min portfolio, bygget med [Astro](https://docs.astro.build), TypeScript, Tailwind CSS og MDX. Siden findes på dansk (`/`) og engelsk (`/en/`).
+My portfolio as a developer: case studies from client work and my own apps, in Danish and English. Built with Astro and served from a small server in my apartment.
 
-## Kom i gang
+**Live:** [casperhavelykke.dk](https://casperhavelykke.dk), and in English at [casperhavelykke.dk/en/](https://casperhavelykke.dk/en/)
 
-```sh
+> **Note on reuse:** This repository is public as a portfolio piece. There is deliberately no open source license, so all rights are reserved. You're welcome to read the code, but please don't reuse the texts, images or CV.
+
+## What's on the site
+
+- **Six case studies.** Two client projects from my job at Brating: a nine-step funeral order form in WooCommerce for Bedemand Haack, and a floor finder with square-metre calculators in Shopify for Gulvgiganten. Then my own apps Røket, Pejling and Loggen, and Socielly, my bachelor project from before AI coding tools.
+- **Calculators you can try.** The Shopify calculators are recreated as React components and run on the case page.
+- **About me, freelance work and a CV.** Freelance jobs since 2018 are listed with the client work, and the CV is a PDF.
+
+## How it's built
+
+| Layer | Choice |
+|---|---|
+| Framework | Astro 7 with static output, TypeScript |
+| Content | MDX in content collections, validated with a Zod schema |
+| Interactivity | React 19 islands, hydrated when they scroll into view |
+| Styling | Tailwind CSS v4 on CSS-variable tokens, with a light and a dark theme |
+| Type | Schibsted Grotesk and Fragment Mono through Astro's Fonts API, served from the site itself |
+| Hosting | Caddy and Let's Encrypt on Ubuntu, running on a Lenovo ThinkCentre M920q |
+
+Choices worth a look:
+
+- **Two languages from one structure.** Danish is at `/` and English at `/en/`, with translated section paths such as `/projekter/` and `/en/projects/`. The two files for a case study share a file name, which is what links them, and an optional `slug` gives each language its own URL. Every page has hreflang links, and the language switch lands on the same page in the other language.
+- **A launch guard.** `npm run check:launch` fails while a `TODO`, a `<Todo>` box or `draft: true` is left in `src`. The deploy script runs it before every build, so unfinished work can't reach the server.
+- **One bold element.** The front page measures the name with a `ResizeObserver` and draws a dimension line with its width in pixels. Everything else stays quiet: one cobalt ink in a few strengths on porcelain, which turns into a blueprint in dark mode.
+- **Accessible and light.** There's a skip link, visible focus, keyboard-operable calculators and reduced motion when the system asks for it, and axe reports no violations on any page in either theme. Pages are static HTML, images are resized to WebP at build time, React only loads on the two calculator pages, and hashed assets are cached for a year.
+
+## Project structure
+
+```text
+src/
+  content/projects/{da,en}/  case studies in MDX, one file per language
+  content/about/             the about page in both languages
+  components/                Astro components and the React calculators
+  views/                     the pages; src/pages only holds thin routes
+  i18n/                      UI strings and translated routes
+  data/                      the skills list and freelance work
+  config.ts                  name, email, profiles and CV
+scripts/
+  check-launch.mjs           the launch guard
+  deploy.sh                  pulls, checks, builds and syncs on the server
+  og-image.html              source of the share image
+```
+
+A new case study takes two files with the same name: `src/content/projects/da/<name>.mdx` and `src/content/projects/en/<name>.mdx`. The schema in `src/content.config.ts` lists the fields. `featured: true` puts a case on the front page, `order` sorts it, and `draft: true` shows it in development only.
+
+## Running it locally
+
+```bash
 npm install
-npm run dev          # http://localhost:4321
+npm run dev
 ```
 
-| Kommando               | Hvad den gør                                              |
-| :--------------------- | :-------------------------------------------------------- |
-| `npm run dev`          | Starter udviklingsserveren. Kladder vises her.            |
-| `npm run build`        | Bygger den færdige side til `dist/`. Kladder udelades.    |
-| `npm run preview`      | Viser det byggede site lokalt.                            |
-| `npm run check`        | Typetjek af hele projektet.                               |
-| `npm run check:launch` | Viser alt, der mangler, før siden må gå online.           |
+Requires Node 22.12 or newer.
 
-## Indhold
+| Command | What it does |
+|---|---|
+| `npm run dev` | Starts the dev server at `localhost:4321`, with drafts shown |
+| `npm run build` | Builds the site to `dist/`, without drafts |
+| `npm run preview` | Serves the build locally |
+| `npm run check` | Type-checks the project |
+| `npm run check:launch` | Lists everything that blocks a launch |
 
-| Hvad                         | Hvor                                          |
-| :--------------------------- | :-------------------------------------------- |
-| Navn, mail, profiler, CV     | `src/config.ts`                               |
-| Projekter                    | `src/content/projects/da/` og `.../en/`       |
-| Om mig                       | `src/content/about/da.mdx` og `en.mdx`        |
-| Teknologilisten på forsiden  | `src/data/skills.ts`                          |
-| Tekster i menu, knapper m.m. | `src/i18n/ui.ts`                              |
+## Deployment
 
-### Tilføj et projekt
-
-1. Opret `src/content/projects/da/<navn>.mdx` og `src/content/projects/en/<navn>.mdx` med samme filnavn. Det er sådan, de to sprog kobles sammen.
-2. Udfyld felterne i toppen af filen (se de eksisterende projekter og skemaet i `src/content.config.ts`):
-   - `kind`: `client` eller `personal`
-   - `featured: true` viser projektet på forsiden, og `order` styrer rækkefølgen.
-   - `slug` giver den engelske udgave sin egen URL, fx `slug: shopify-sections`.
-   - `draft: true` viser projektet lokalt, men udelader det fra det byggede site.
-3. Skriv casen: problem, løsning og resultat.
-
-### Billeder
-
-Læg skærmbilleder i `src/assets/projects/` og henvis til dem fra projektfilen:
-
-```yaml
-cover: ../../../assets/projects/bedemand.png
-coverAlt: Produktvælgeren, hvor kunden sammensætter sin bestilling
-```
-
-Astro laver automatisk mindre udgaver i moderne formater. Billeder inde i selve casen indsættes med almindelig Markdown: `![Beskrivelse](../../../assets/projects/billede.png)`.
-
-### CV
-
-`public/cv/casper-havelykke-larsen-cv.pdf` er dit CV (`CV_General.html`) printet til PDF med Chrome, men uden telefonnummeret, fordi alle kan hente filen. Lav den på samme måde, når CV'et ændrer sig.
-
-### Det, der mangler
-
-`<Todo>…</Todo>` markerer tekst, der skal skrives. Den kan bruges i alle MDX-filer uden import og vises som en stiplet boks. `// TODO:`-kommentarer markerer resten.
-
-## Før siden går online
-
-Kør `npm run check:launch`. Den viser hver TODO og hver kladde og afslutter med en fejl, så længe der er noget tilbage.
-
-- [ ] Alle cases er skrevet, og `draft: true` er fjernet.
-- [x] Kunderne har sagt ja til at blive vist, eller casen er anonym.
-- [x] Skærmbilleder er lagt ind med `cover` og `coverAlt`.
-- [x] `src/config.ts`: mail, LinkedIn, GitHub, by og CV'er (PDF i `public/cv/`).
-- [ ] Delingsbillede på 1200×630 px i `public/`, angivet som `ogImage` i `src/config.ts`.
-- [ ] Teknologilisten i `src/data/skills.ts` er gennemgået.
-- [ ] Siden er tjekket på mobil, i lyst og mørkt tema og med tastatur.
-- [ ] Repoet på GitHub er gjort offentligt (*Settings → Change visibility*), så linket på "Om mig" virker.
-
-## Drift
-
-Siden er statisk. `npm run build` laver mappen `dist/`, som Caddy serverer direkte. Node bruges kun til at bygge, så der kører ingen Node-proces på serveren.
-
-### Første gang
-
-1. **DNS hos Simply:** A-posterne for `casperhavelykke.dk` og `www.casperhavelykke.dk` skal pege på serverens IP, den samme som loggen.app. Lad MX-posten være.
-2. **Koden på serveren:** Det kræver Node 22.12 eller nyere, og at repoet er offentligt, eller at serveren har adgang til det.
-
-   ```sh
-   git clone https://github.com/CasperHavelykke/casperhavelykke.dk.git ~/casperhavelykke.dk
-   sudo mkdir -p /var/www/casperhavelykke.dk
-   sudo chown "$USER": /var/www/casperhavelykke.dk
-   cd ~/casperhavelykke.dk && ./scripts/deploy.sh
-   ```
-
-3. **Caddy:** Læg blokken herunder i `/etc/caddy/Caddyfile`, og kør `sudo systemctl reload caddy`. Vent, til DNS peger på serveren, så Caddy kan hente certifikatet med det samme.
+The site is static, so Caddy serves `dist/` directly and Node is only used to build it. On the server, `scripts/deploy.sh` pulls, runs the launch guard, builds and syncs the result to `/var/www/casperhavelykke.dk`. It stops at the first error, so the live site is never half updated.
 
 ```caddy
 casperhavelykke.dk {
@@ -108,6 +91,6 @@ www.casperhavelykke.dk {
 }
 ```
 
-### Opdateringer
+---
 
-Push til GitHub, og kør `./scripts/deploy.sh` fra `~/casperhavelykke.dk` på serveren. Scriptet henter koden, kører `check:launch`, bygger og lægger siden ud. Det stopper, hvis noget fejler, så siden aldrig bliver halvt opdateret.
+Built by **Casper Havelykke** · [casperhavelykke.dk](https://casperhavelykke.dk)
