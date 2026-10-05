@@ -48,6 +48,10 @@ coverAlt: Produktvælgeren, hvor kunden sammensætter sin bestilling
 
 Astro laver automatisk mindre udgaver i moderne formater. Billeder inde i selve casen indsættes med almindelig Markdown: `![Beskrivelse](../../../assets/projects/billede.png)`.
 
+### CV
+
+`public/cv/casper-havelykke-larsen-cv.pdf` er dit CV (`CV_General.html`) printet til PDF med Chrome, men uden telefonnummeret, fordi alle kan hente filen. Lav den på samme måde, når CV'et ændrer sig.
+
 ### Det, der mangler
 
 `<Todo>…</Todo>` markerer tekst, der skal skrives. Den kan bruges i alle MDX-filer uden import og vises som en stiplet boks. `// TODO:`-kommentarer markerer resten.

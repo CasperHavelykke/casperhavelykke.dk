@@ -1,0 +1,118 @@
+<!doctype html>
+<!--
+  Delingsbilledet til LinkedIn m.fl. (public/og.png, 1200 × 630 px).
+  Lav det igen med Chrome:
+  chrome --headless=new --hide-scrollbars --window-size=1200,630 --virtual-time-budget=8000 --screenshot=public/og.png scripts/og-image.html
+-->
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&display=block" rel="stylesheet" />
+    <style>
+      :root {
+        --paper: #fafbfe;
+        --ink-strong: #102463;
+        --muted: #4a62a8;
+        --accent: #1d3b8f;
+      }
+
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 76px 88px 64px;
+        background: var(--paper);
+        font-family: 'Schibsted Grotesk', sans-serif;
+      }
+
+      /* Same idea as the hero: the line spans exactly the name and shows its width. */
+      .measured {
+        align-self: flex-start;
+      }
+
+      .name {
+        font-size: 176px;
+        font-weight: 800;
+        line-height: 0.86;
+        letter-spacing: -0.045em;
+        color: var(--ink-strong);
+      }
+
+      .name span {
+        display: block;
+      }
+
+      .dimension {
+        position: relative;
+        height: 24px;
+        margin-top: 34px;
+        color: var(--accent);
+      }
+
+      .dimension-line {
+        position: absolute;
+        inset: 0;
+        border-inline: 3px solid currentColor;
+      }
+
+      .dimension-line::before {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 50%;
+        border-top: 3px solid currentColor;
+        translate: 0 -50%;
+      }
+
+      .dimension-value {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -52%;
+        padding-inline: 18px;
+        background: var(--paper);
+        font-size: 28px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .domain {
+        font-size: 30px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="measured">
+      <h1 class="name"><span>Casper</span> <span>Havelykke</span></h1>
+      <div class="dimension">
+        <span class="dimension-line"></span>
+        <span class="dimension-value" id="value"></span>
+      </div>
+    </div>
+    <p class="domain">casperhavelykke.dk</p>
+    <script>
+      document.fonts.ready.then(() => {
+        const width = document.querySelector('.name').getBoundingClientRect().width;
+        document.getElementById('value').textContent = `${Math.round(width)} px`;
+      });
+    </script>
+  </body>
+</html>

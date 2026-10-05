@@ -2,7 +2,6 @@ import type { Lang } from '../i18n/ui';
 
 type Group = { title: string; items: string[] };
 
-// TODO: Gennemgå listen, så den kun indeholder det, du gerne vil tale om til en samtale.
 export const skills: Record<Lang, Group[]> = {
   da: [
     {
@@ -19,7 +18,11 @@ export const skills: Record<Lang, Group[]> = {
     },
     {
       title: 'Backend og drift',
-      items: ['Node.js og GraphQL', 'Firebase og Firestore', 'SQLite og Drizzle', 'OAuth 2.0 og MCP', 'Linux-server med Caddy'],
+      items: ['Node.js og GraphQL', 'Firebase og Firestore', 'SQLite', 'OAuth 2.0 og MCP', 'Linux-server med Caddy'],
+    },
+    {
+      title: 'Værktøjer',
+      items: ['Git', 'Claude Code', 'Photoshop'],
     },
   ],
   en: [
@@ -37,7 +40,11 @@ export const skills: Record<Lang, Group[]> = {
     },
     {
       title: 'Backend and hosting',
-      items: ['Node.js and GraphQL', 'Firebase and Firestore', 'SQLite and Drizzle', 'OAuth 2.0 and MCP', 'Linux server with Caddy'],
+      items: ['Node.js and GraphQL', 'Firebase and Firestore', 'SQLite', 'OAuth 2.0 and MCP', 'Linux server with Caddy'],
+    },
+    {
+      title: 'Tools',
+      items: ['Git', 'Claude Code', 'Photoshop'],
     },
   ],
 };

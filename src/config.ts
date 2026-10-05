@@ -22,6 +22,6 @@ export const site = {
     en: '/cv/casper-havelykke-larsen-cv.pdf',
   } as Record<Lang, string | null>,
 
-  // TODO: Læg et 1200×630 px billede i public/ til deling på LinkedIn m.fl., fx '/og.png'.
-  ogImage: null as string | null,
+  /** Shown when the site is shared on LinkedIn and elsewhere. Made from scripts/og-image.html. */
+  ogImage: '/og.png' as string | null,
 };

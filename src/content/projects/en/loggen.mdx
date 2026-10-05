@@ -10,7 +10,6 @@ links:
 cover: ../../../assets/projects/loggen/statistik.png
 coverAlt: The statistics page in Loggen with a chart of weight and one of sleep duration over the last 90 days
 order: 6
-draft: true
 ---
 
 import iDag from '../../../assets/projects/loggen/i-dag.png';
@@ -21,11 +20,11 @@ Loggen is built for me. I log almost everything, from sleep, training and food t
 
 ## Why it runs in my apartment
 
-Loggen holds the most personal data I have. It started on Vercel and Turso, but I deliberately moved it to a small server in my apartment: Ubuntu, one SQLite file, files on local disk, and Caddy with certificates from Let's Encrypt. No third party has technical access to the data.
+Loggen holds the most personal data I have. It started on Vercel and Turso, but I deliberately moved it to a small server in my apartment: Ubuntu, one SQLite file, files on local disk, and Caddy with certificates from Let's Encrypt. The data lives only on my own server, not with a hosting provider.
 
 ## AI assistants through MCP
 
-Loggen has an MCP server with 63 tools, so an AI assistant like Claude or ChatGPT can log "12 g glycine" or answer "what's on my plan today?". Access is controlled by an OAuth 2.0 server I wrote myself:
+Loggen has an MCP server with more than 60 tools, so an AI assistant like Claude or ChatGPT can log "12 g glycine" or answer "what's on my plan today?". Access is controlled by an OAuth 2.0 server I wrote myself:
 
 - Authorization code flow with mandatory PKCE, S256 only
 - Client secrets stored as bcrypt hashes and tokens as SHA-256 hashes
@@ -43,4 +42,4 @@ Every MCP request gets its own server instance, so no state is shared between re
 
 ## Hosting
 
-A small script pulls the code, builds, migrates the databases and restarts two systemd services: the real app and the demo, which resets every night. It's the same server this site will run on.
+A small script pulls the code, builds, migrates the databases and restarts two systemd services: the real app and the demo, which resets every night. It's the same server this site runs on.

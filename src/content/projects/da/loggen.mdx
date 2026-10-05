@@ -10,7 +10,6 @@ links:
 cover: ../../../assets/projects/loggen/statistik.png
 coverAlt: Statistiksiden i Loggen med en graf over vægt og en over søvnvarighed de sidste 90 dage
 order: 6
-draft: true
 ---
 
 import iDag from '../../../assets/projects/loggen/i-dag.png';
@@ -21,11 +20,11 @@ Loggen er bygget til mig selv. Jeg logger næsten alt, fra søvn, træning og ko
 
 ## Hvorfor den kører hjemme hos mig
 
-Loggen indeholder de mest personlige data, jeg har. Den startede på Vercel og Turso, men jeg flyttede den bevidst til en lille server i min lejlighed: Ubuntu, én SQLite-fil, filer på lokal disk og Caddy med certifikater fra Let's Encrypt. Ingen tredjepart har teknisk adgang til data.
+Loggen indeholder de mest personlige data, jeg har. Den startede på Vercel og Turso, men jeg flyttede den bevidst til en lille server i min lejlighed: Ubuntu, én SQLite-fil, filer på lokal disk og Caddy med certifikater fra Let's Encrypt. Data ligger kun på min egen server og ikke hos en hostingudbyder.
 
 ## AI-assistenter via MCP
 
-Loggen har en MCP-server med 63 værktøjer, så en AI-assistent som Claude eller ChatGPT kan logge "12 g glycin" eller svare på "hvad står der på min plan i dag?". Adgangen styres af en OAuth 2.0-server, jeg selv har skrevet:
+Loggen har en MCP-server med over 60 værktøjer, så en AI-assistent som Claude eller ChatGPT kan logge "12 g glycin" eller svare på "hvad står der på min plan i dag?". Adgangen styres af en OAuth 2.0-server, jeg selv har skrevet:
 
 - Authorization code-flow med obligatorisk PKCE, kun med S256
 - Klienthemmeligheder gemt som bcrypt-hashes og tokens som SHA-256-hashes
@@ -43,4 +42,4 @@ Hver MCP-forespørgsel får sin egen serverinstans, så der ikke deles tilstand 
 
 ## Drift
 
-Et lille script henter koden, bygger, migrerer databaserne og genstarter to systemd-tjenester: den rigtige app og demoen, som nulstilles hver nat. Det er den samme server, som denne side kommer til at køre på.
+Et lille script henter koden, bygger, migrerer databaserne og genstarter to systemd-tjenester: den rigtige app og demoen, som nulstilles hver nat. Det er den samme server, som denne side kører på.

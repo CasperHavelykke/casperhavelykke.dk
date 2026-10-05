@@ -10,7 +10,6 @@ links:
 cover: ../../../assets/projects/pejling/cover.png
 coverAlt: Tre skærme fra Pejling, forsiden med uglen og 1,6 aktive genstande, historikken for september og forsiden ved 9,4 genstande med beskeden om at gå hjem
 order: 5
-draft: true
 ---
 
 import hovedskaerm from '../../../assets/projects/pejling/hovedskaerm.png';
@@ -18,7 +17,7 @@ import iAften from '../../../assets/projects/pejling/i-aften.png';
 import historik from '../../../assets/projects/pejling/historik.png';
 import tagHjem from '../../../assets/projects/pejling/tag-hjem.png';
 
-Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto, sporing eller reklamer. Jeg har designet, bygget og fået den igennem App Store-review på egen hånd.
+Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto, sporing eller reklamer. Jeg har designet og bygget den og fået den igennem App Store-review på egen hånd, og jeg brugte AI som værktøj undervejs.
 
 <Screens
   images={[
@@ -42,5 +41,5 @@ Appen er vejledende. Den måler ikke promille og kan ikke bruges til at vurdere,
 
 - Beregningen ligger i ren TypeScript uden UI og er dækket af tests.
 - En ugle kommenterer aftenen, og farverne skifter, jo flere genstande der er aktive.
-- Data gemmes i SQLite på telefonen og i localStorage, når appen kører i browseren.
+- Data gemmes i SQLite på telefonen. Under udvikling kan appen også køre i browseren, og så bruges localStorage i stedet.
 - En kalender viser tidligere aftener, og farven viser aftenens højeste antal aktive genstande.
