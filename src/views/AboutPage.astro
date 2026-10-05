@@ -36,18 +36,18 @@ const cv = site.cv[lang];
           sizes="(min-width: 48rem) 16rem, 12rem"
           class="h-auto w-48 rounded-[4px] bg-glaze md:w-full md:max-w-64"
         />
-      </div>
-      <div class="prose md:col-span-8">
-        <About components={{ Todo }} />
         {
           cv && (
-            <p>
+            <p class="mt-5">
               <a href={cv} class="button">
                 {t('home.cta.cv')}
               </a>
             </p>
           )
         }
+      </div>
+      <div class="prose md:col-span-8">
+        <About components={{ Todo }} />
       </div>
     </div>
   </div>
