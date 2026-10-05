@@ -71,9 +71,21 @@ Kør `npm run check:launch`. Den viser hver TODO og hver kladde og afslutter med
 
 ## Drift
 
-Siden er statisk. `npm run build` laver mappen `dist/`, som Caddy serverer direkte. Der skal ikke køre nogen Node-proces på serveren.
+Siden er statisk. `npm run build` laver mappen `dist/`, som Caddy serverer direkte. Node bruges kun til at bygge, så der kører ingen Node-proces på serveren.
 
-Eksempel på en Caddy-blok:
+### Første gang
+
+1. **DNS hos Simply:** A-posterne for `casperhavelykke.dk` og `www.casperhavelykke.dk` skal pege på serverens IP, den samme som loggen.app. Lad MX-posten være.
+2. **Koden på serveren:** Det kræver Node 22.12 eller nyere, og at repoet er offentligt, eller at serveren har adgang til det.
+
+   ```sh
+   git clone https://github.com/CasperHavelykke/casperhavelykke.dk.git ~/casperhavelykke.dk
+   sudo mkdir -p /var/www/casperhavelykke.dk
+   sudo chown "$USER": /var/www/casperhavelykke.dk
+   cd ~/casperhavelykke.dk && ./scripts/deploy.sh
+   ```
+
+3. **Caddy:** Læg blokken herunder i `/etc/caddy/Caddyfile`, og kør `sudo systemctl reload caddy`. Vent, til DNS peger på serveren, så Caddy kan hente certifikatet med det samme.
 
 ```caddy
 casperhavelykke.dk {
@@ -96,4 +108,6 @@ www.casperhavelykke.dk {
 }
 ```
 
-Udrulning kan være så enkel som `npm run build` efterfulgt af `rsync -a --delete dist/ server:/var/www/casperhavelykke.dk/`.
+### Opdateringer
+
+Push til GitHub, og kør `./scripts/deploy.sh` fra `~/casperhavelykke.dk` på serveren. Scriptet henter koden, kører `check:launch`, bygger og lægger siden ud. Det stopper, hvis noget fejler, så siden aldrig bliver halvt opdateret.

@@ -52,7 +52,7 @@ const ogImage = site.ogImage ? absolute(site.ogImage) : null;
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={ogLocale[lang]} />
     {langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
     {ogImage && <meta property="og:image" content={ogImage} />}
