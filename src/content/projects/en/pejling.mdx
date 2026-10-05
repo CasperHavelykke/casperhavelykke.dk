@@ -7,13 +7,28 @@ tech: [React Native, Expo, TypeScript, Expo Router, SQLite]
 links:
   live: https://pejlingapp.dk/
   appStore: https://apps.apple.com/app/pejling/id6817084330
+cover: ../../../assets/projects/pejling/cover.png
+coverAlt: Three screens from Pejling, the home screen with the owl and 1.6 active drinks, the history for September, and the home screen at 9.4 drinks telling you to go home
 order: 5
 draft: true
 ---
 
-<Todo>Take 3–4 screenshots on your phone and put them in `src/assets/projects/pejling/`, and we'll add them like on Røket.</Todo>
+import hovedskaerm from '../../../assets/projects/pejling/hovedskaerm.png';
+import iAften from '../../../assets/projects/pejling/i-aften.png';
+import historik from '../../../assets/projects/pejling/historik.png';
+import tagHjem from '../../../assets/projects/pejling/tag-hjem.png';
 
-Pejling is a React Native app built with Expo, and it's pure frontend. Everything stays on the phone, with no account and no server.
+Pejling is a React Native app built with Expo, and it's pure frontend. Everything stays on the phone, with no account, no tracking and no ads. I designed and built it and got it through App Store review on my own.
+
+<Screens
+  images={[
+    { src: hovedskaerm, alt: 'The home screen with the owl, 1.6 active drinks and buttons for beer, wine, cocktail and shot' },
+    { src: iAften, alt: "The list of tonight's four drinks with times and an undo button on each" },
+    { src: historik, alt: 'The calendar for September with drinks per night and details for the 19th' },
+    { src: tagHjem, alt: 'The home screen at 9.4 active drinks, with a dark red background and the owl telling you to go home' },
+  ]}
+  caption="The home screen, tonight's drinks, the history and the home screen when it's time to go home."
+/>
 
 ## How it calculates
 
@@ -26,5 +41,6 @@ The app is indicative only. It doesn't measure blood alcohol and can't be used t
 ## How it's built
 
 - The calculation lives in plain TypeScript without UI and is covered by tests.
+- An owl comments on the night, and the colours change as more drinks become active.
 - Data is stored in SQLite on the phone and in localStorage when the app runs in the browser.
 - A calendar shows past nights, and the colour shows each night's highest number of active drinks.

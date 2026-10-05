@@ -1,11 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import type { Project } from '../lib/projects';
-import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   project: Project;
-  lang: Lang;
   /** The `sizes` attribute for the responsive image. */
   sizes: string;
   /** Wide on the case page, 4:3 in lists. */
@@ -13,9 +11,8 @@ interface Props {
   eager?: boolean;
 }
 
-const { project, lang, sizes, wide = false, eager = false } = Astro.props;
-const { cover, coverAlt } = project.data;
-const t = useTranslations(lang);
+const { project, sizes, wide = false, eager = false } = Astro.props;
+const { cover, coverAlt, title, year } = project.data;
 const aspect = wide ? 'aspect-video' : 'aspect-[4/3]';
 ---
 
@@ -30,44 +27,38 @@ const aspect = wide ? 'aspect-video' : 'aspect-[4/3]';
       class:list={[aspect, 'w-full rounded-[4px] bg-glaze object-cover']}
     />
   ) : (
-    <div class:list={[aspect, 'placeholder']} aria-hidden="true">
-      <svg viewBox="0 0 400 300" preserveAspectRatio="none">
-        <line x1="0" y1="0" x2="400" y2="300" />
-        <line x1="400" y1="0" x2="0" y2="300" />
-      </svg>
-      <span>{t('project.coverMissing')}</span>
+    <div class:list={[aspect, 'title-card']} aria-hidden="true">
+      <span class="title-card-name">{title}</span>
+      {year && <span class="title-card-year">{year}</span>}
     </div>
   )
 }
 
 <style>
-  /* The wireframe convention for "image goes here". */
-  .placeholder {
-    position: relative;
-    display: grid;
-    place-items: center;
+  /* Projects without screenshots get their name set in type instead of a picture. */
+  .title-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
     border: 1.5px solid var(--line);
     border-radius: 4px;
+    background: var(--glaze);
+  }
+
+  .title-card-name {
+    color: var(--ink-strong);
+    font-size: clamp(2.25rem, 7vw, 4.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    overflow-wrap: anywhere;
+  }
+
+  .title-card-year {
     color: var(--muted);
-  }
-
-  .placeholder svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    stroke: var(--line);
-    stroke-width: 1.5;
-  }
-
-  .placeholder line {
-    vector-effect: non-scaling-stroke;
-  }
-
-  .placeholder span {
-    position: relative;
-    padding: 0.25rem 0.75rem;
-    background: var(--paper);
     font-size: var(--text-sm);
+    font-weight: 600;
   }
 </style>

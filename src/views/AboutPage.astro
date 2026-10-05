@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Todo from '../components/Todo.astro';
 import AboutDa from '../content/about/da.mdx';
 import AboutEn from '../content/about/en.mdx';
+import portrait from '../assets/about/portraet.jpg';
 import { site } from '../config';
 import { routes } from '../i18n/routes';
 import { useTranslations, type Lang } from '../i18n/ui';
@@ -25,17 +27,28 @@ const cv = site.cv[lang];
 >
   <div class="wrap pt-10 md:pt-16">
     <h1 class="text-3xl font-bold md:text-4xl">{t('about.title')}</h1>
-    <div class="prose mt-10">
-      <About components={{ Todo }} />
+    <div class="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-12">
+      <div class="md:order-2 md:col-span-4 md:col-start-9">
+        <Image
+          src={portrait}
+          alt={t('about.portrait', { name: site.name })}
+          widths={[240, 480]}
+          sizes="(min-width: 48rem) 16rem, 12rem"
+          class="h-auto w-48 rounded-[4px] bg-glaze md:w-full md:max-w-64"
+        />
+      </div>
+      <div class="prose md:col-span-8">
+        <About components={{ Todo }} />
+        {
+          cv && (
+            <p>
+              <a href={cv} class="button">
+                {t('home.cta.cv')}
+              </a>
+            </p>
+          )
+        }
+      </div>
     </div>
-    {
-      cv && (
-        <p class="mt-10">
-          <a href={cv} class="button">
-            {t('home.cta.cv')}
-          </a>
-        </p>
-      )
-    }
   </div>
 </Base>

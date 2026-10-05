@@ -19,7 +19,7 @@ const da = {
     'Portfolio for Casper Havelykke: frontend i React og TypeScript, apps og skræddersyede webshopløsninger i Shopify og WooCommerce.',
   'home.intro':
     'Frontend-udvikler. Jeg bygger brugerflader i React og TypeScript, apps til iOS og Android og skræddersyede løsninger til webshops i Shopify og WooCommerce.',
-  'home.location': 'Jeg bor i {location}.',
+  'home.location': 'Jeg bor i {location} og flytter gerne for det rette job.',
   'home.available': 'Lige nu søger jeg job som udvikler, og jeg er åben for både frontend og backend.',
   'home.cta.projects': 'Se projekter',
   'home.cta.cv': 'Hent CV (PDF)',
@@ -36,7 +36,8 @@ const da = {
   'projects.personal': 'Egne projekter',
   'projects.empty': 'Der er ingen projekter i denne kategori endnu.',
   'projects.freelance': 'Som freelancer',
-  'projects.freelanceIntro': 'Siden 2018 har jeg taget opgaver som freelance webudvikler og grafisk designer.',
+  'projects.freelanceIntro': 'Fra 2018 til 2025 tog jeg opgaver som freelance webudvikler og grafisk designer.',
+  'projects.offline': 'ikke længere online',
 
   'project.kind.client': 'Kundeopgave',
   'project.kind.personal': 'Eget projekt',
@@ -55,11 +56,11 @@ const da = {
   'project.link.googlePlay': 'Google Play',
   'project.back': 'Alle projekter',
   'project.next': 'Næste projekt',
-  'project.coverMissing': 'Billede mangler',
 
   'about.title': 'Om mig',
   'about.description': 'Om Casper Havelykke, og hvordan denne side er bygget.',
   'about.site': 'Om denne side',
+  'about.portrait': 'Portræt af {name}',
 
   'contact.title': 'Kontakt',
   'contact.lead': 'Har du en stilling eller en opgave, jeg kunne passe til, så skriv til mig.',
@@ -84,7 +85,7 @@ const en: Record<Key, string> = {
     'Portfolio of Casper Havelykke: frontend in React and TypeScript, apps, and custom e-commerce work in Shopify and WooCommerce.',
   'home.intro':
     'Frontend developer. I build interfaces in React and TypeScript, apps for iOS and Android, and custom solutions for Shopify and WooCommerce stores.',
-  'home.location': 'Based in {location}, Denmark.',
+  'home.location': "I live in {location}, Denmark, and I’m happy to relocate for the right job.",
   'home.available': "I’m currently looking for a developer role, and I’m open to both frontend and backend work.",
   'home.cta.projects': 'See projects',
   'home.cta.cv': 'Download CV (PDF)',
@@ -101,7 +102,8 @@ const en: Record<Key, string> = {
   'projects.personal': 'Personal projects',
   'projects.empty': 'There are no projects in this category yet.',
   'projects.freelance': 'As a freelancer',
-  'projects.freelanceIntro': 'Since 2018 I have taken on work as a freelance web developer and graphic designer.',
+  'projects.freelanceIntro': 'From 2018 to 2025 I took on work as a freelance web developer and graphic designer.',
+  'projects.offline': 'no longer online',
 
   'project.kind.client': 'Client project',
   'project.kind.personal': 'Personal project',
@@ -120,11 +122,11 @@ const en: Record<Key, string> = {
   'project.link.googlePlay': 'Google Play',
   'project.back': 'All projects',
   'project.next': 'Next project',
-  'project.coverMissing': 'Image missing',
 
   'about.title': 'About me',
   'about.description': 'About Casper Havelykke and how this site is built.',
   'about.site': 'About this site',
+  'about.portrait': 'Portrait of {name}',
 
   'contact.title': 'Contact',
   'contact.lead': 'If you have a role or a project I might be a good fit for, send me an email.',

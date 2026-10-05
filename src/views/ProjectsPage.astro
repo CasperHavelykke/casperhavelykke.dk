@@ -59,6 +59,7 @@ const groups = [
                   <li class="grid grid-cols-[1fr_auto] gap-x-6 border-b border-line py-3 sm:grid-cols-[13rem_1fr_auto]">
                     <span class="font-semibold text-ink-strong">
                       {job.url ? <a href={job.url}>{job.name}</a> : job.name}
+                      {job.offline && <span class="text-sm font-normal text-muted"> ({t('projects.offline')})</span>}
                     </span>
                     <span class="text-sm text-muted tabular-nums sm:order-last sm:text-base">{job.year}</span>
                     <span class="col-span-2 text-muted sm:col-span-1">{job.work[lang]}</span>

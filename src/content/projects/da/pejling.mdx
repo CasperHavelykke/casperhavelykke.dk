@@ -7,13 +7,28 @@ tech: [React Native, Expo, TypeScript, Expo Router, SQLite]
 links:
   live: https://pejlingapp.dk/
   appStore: https://apps.apple.com/app/pejling/id6817084330
+cover: ../../../assets/projects/pejling/cover.png
+coverAlt: Tre skærme fra Pejling, forsiden med uglen og 1,6 aktive genstande, historikken for september og forsiden ved 9,4 genstande med beskeden om at gå hjem
 order: 5
 draft: true
 ---
 
-<Todo>Tag 3–4 skærmbilleder på telefonen og læg dem i `src/assets/projects/pejling/`, så sætter vi dem ind ligesom hos Røket.</Todo>
+import hovedskaerm from '../../../assets/projects/pejling/hovedskaerm.png';
+import iAften from '../../../assets/projects/pejling/i-aften.png';
+import historik from '../../../assets/projects/pejling/historik.png';
+import tagHjem from '../../../assets/projects/pejling/tag-hjem.png';
 
-Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto eller server.
+Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto, sporing eller reklamer. Jeg har designet, bygget og fået den igennem App Store-review på egen hånd.
+
+<Screens
+  images={[
+    { src: hovedskaerm, alt: 'Forsiden med uglen, 1,6 aktive genstande og knapper til øl, vin, cocktail og shot' },
+    { src: iAften, alt: 'Listen over aftenens fire drinks med tidspunkter og en fortryd-knap ved hver' },
+    { src: historik, alt: 'Kalenderen for september med antal genstande pr. aften og detaljer for den 19.' },
+    { src: tagHjem, alt: 'Forsiden ved 9,4 aktive genstande, hvor baggrunden er blevet mørkerød, og uglen siger, at man skal gå hjem' },
+  ]}
+  caption="Forsiden, aftenens drinks, historikken og forsiden, når det er tid at gå hjem."
+/>
 
 ## Sådan regner den
 
@@ -26,5 +41,6 @@ Appen er vejledende. Den måler ikke promille og kan ikke bruges til at vurdere,
 ## Sådan er den bygget
 
 - Beregningen ligger i ren TypeScript uden UI og er dækket af tests.
+- En ugle kommenterer aftenen, og farverne skifter, jo flere genstande der er aktive.
 - Data gemmes i SQLite på telefonen og i localStorage, når appen kører i browseren.
 - En kalender viser tidligere aftener, og farven viser aftenens højeste antal aktive genstande.

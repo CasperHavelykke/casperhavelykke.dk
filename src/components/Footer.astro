@@ -13,6 +13,7 @@ const cv = site.cv[lang];
 const links = [
   site.linkedin && { href: site.linkedin, label: 'LinkedIn' },
   site.github && { href: site.github, label: 'GitHub' },
+  site.worksome && { href: site.worksome, label: 'Worksome' },
   cv && { href: cv, label: t('contact.cv') },
 ].filter((link) => !!link);
 ---

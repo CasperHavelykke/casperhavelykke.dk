@@ -9,15 +9,18 @@ export const site = {
 
   email: 'c.havelykke@outlook.com',
 
-  // TODO: Indsæt links til dine profiler.
-  github: null as string | null,
-  linkedin: null as string | null,
+  github: 'https://github.com/CasperHavelykke' as string | null,
+  linkedin: 'https://www.linkedin.com/in/casper-havelykke-larsen/' as string | null,
+  worksome: 'https://use.worksome.com/profile/42356' as string | null,
 
-  // TODO: Skriv din by, fx 'Aarhus'. Vises i introduktionen på forsiden.
-  location: null as string | null,
+  /** Shown in the introduction on the front page. */
+  location: 'Kalundborg' as string | null,
 
-  // TODO: Læg CV'erne i public/cv/ og skriv stierne her, fx '/cv/casper-havelykke-cv.pdf'.
-  cv: { da: null, en: null } as Record<Lang, string | null>,
+  /** The CV is in English, so both languages share it. */
+  cv: {
+    da: '/cv/casper-havelykke-larsen-cv.pdf',
+    en: '/cv/casper-havelykke-larsen-cv.pdf',
+  } as Record<Lang, string | null>,
 
   // TODO: Læg et 1200×630 px billede i public/ til deling på LinkedIn m.fl., fx '/og.png'.
   ogImage: null as string | null,
