@@ -1,31 +1,32 @@
 ---
 title: Pejling
-summary: En genstandstæller til byturen. Man trykker, hver gang man drikker noget, og appen viser, hvor mange genstande der stadig er aktive i kroppen. Udgivet i App Store.
+summary: En genstandstæller til byturen. Man trykker, hver gang man drikker noget, og appen viser, hvor mange genstande der stadig er aktive i kroppen. Udgivet i App Store og Google Play.
 kind: personal
 year: '2026'
 tech: [React Native, Expo, TypeScript, Expo Router, SQLite]
 links:
   live: https://pejlingapp.dk/
   appStore: https://apps.apple.com/app/pejling/id6817084330
+  googlePlay: https://play.google.com/store/apps/details?id=dk.pejlingapp.pejling
   repo: https://github.com/CasperHavelykke/pejling
-cover: ../../../assets/projects/pejling/cover.png
-coverAlt: Tre skærme fra Pejling, forsiden med uglen og 1,6 aktive genstande, historikken for september og forsiden ved 9,4 genstande med beskeden om at gå hjem
+cover: ../../../assets/projects/pejling/da/cover.png
+coverAlt: Tre skærme fra Pejling, forsiden ved Let påvirket med 1,6 aktive genstande, historikken for september og forsiden ved Tag hjem med 9,4 aktive genstande
 order: 5
 ---
 
-import hovedskaerm from '../../../assets/projects/pejling/hovedskaerm.png';
-import iAften from '../../../assets/projects/pejling/i-aften.png';
-import historik from '../../../assets/projects/pejling/historik.png';
-import tagHjem from '../../../assets/projects/pejling/tag-hjem.png';
+import hovedskaerm from '../../../assets/projects/pejling/da/hovedskaerm.png';
+import iAften from '../../../assets/projects/pejling/da/i-aften.png';
+import historik from '../../../assets/projects/pejling/da/historik.png';
+import tagHjem from '../../../assets/projects/pejling/da/tag-hjem.png';
 
-Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto, sporing eller reklamer. Jeg har designet og bygget den og fået den igennem App Store-review på egen hånd, og jeg brugte AI som værktøj undervejs.
+Pejling er en app i React Native med Expo, og den er ren frontend. Alt ligger lokalt på telefonen, og der er hverken konto, sporing eller reklamer. Jeg har designet og bygget den og fået den igennem review i både App Store og Google Play på egen hånd, og jeg brugte AI som værktøj undervejs.
 
 <Screens
   images={[
-    { src: hovedskaerm, alt: 'Forsiden med uglen, 1,6 aktive genstande og knapper til øl, vin, cocktail og shot' },
-    { src: iAften, alt: 'Listen over aftenens fire drinks med tidspunkter og en fortryd-knap ved hver' },
-    { src: historik, alt: 'Kalenderen for september med antal genstande pr. aften og detaljer for den 19.' },
-    { src: tagHjem, alt: 'Forsiden ved 9,4 aktive genstande, hvor baggrunden er blevet mørkerød, og uglen siger, at man skal gå hjem' },
+    { src: hovedskaerm, alt: 'Forsiden med uglen ved Let påvirket, 1,6 aktive genstande og knapper til øl, vin, drink og shot' },
+    { src: iAften, alt: 'Aftenens fire drinks med tidspunkter, en fortryd-knap ved hver og tiden, til kroppen er på nul igen' },
+    { src: historik, alt: 'Kalenderen for september med antal genstande pr. aften og detaljer for lørdag den 19.' },
+    { src: tagHjem, alt: 'Forsiden ved 9,4 aktive genstande, hvor baggrunden er blevet mørkerød, og niveauet hedder Tag hjem' },
   ]}
   caption="Forsiden, aftenens drinks, historikken og forsiden, når det er tid at gå hjem."
 />

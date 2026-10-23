@@ -14,11 +14,11 @@ const da = {
   'lang.switch': 'English',
   'lang.switchLabel': 'Read this page in English',
 
-  'home.title': 'Frontend-udvikler',
+  'home.title': 'Fullstack-udvikler',
   'home.description':
-    'Portfolio for Casper Havelykke: frontend i React og TypeScript, apps og skræddersyede webshopløsninger i Shopify og WooCommerce.',
+    'Portfolio for Casper Havelykke: fullstack i React, TypeScript og Node.js, apps og skræddersyede webshopløsninger i Shopify og WooCommerce.',
   'home.intro':
-    'Frontend-udvikler. Jeg bygger brugerflader i React og TypeScript, apps til iOS og Android og skræddersyede løsninger til webshops i Shopify og WooCommerce.',
+    'Fullstack-udvikler. Jeg bygger brugerflader i React og TypeScript, backends i Node.js, apps til iOS og Android og skræddersyede løsninger til webshops i Shopify og WooCommerce.',
   'home.location': 'Jeg bor i {location} og flytter gerne for det rette job.',
   'home.available': 'Lige nu søger jeg job som udvikler, og jeg er åben for både frontend og backend.',
   'home.cta.projects': 'Se projekter',
@@ -80,11 +80,11 @@ const en: Record<Key, string> = {
   'lang.switch': 'Dansk',
   'lang.switchLabel': 'Læs siden på dansk',
 
-  'home.title': 'Frontend developer',
+  'home.title': 'Full-stack developer',
   'home.description':
-    'Portfolio of Casper Havelykke: frontend in React and TypeScript, apps, and custom e-commerce work in Shopify and WooCommerce.',
+    'Portfolio of Casper Havelykke: full stack in React, TypeScript and Node.js, apps, and custom e-commerce work in Shopify and WooCommerce.',
   'home.intro':
-    'Frontend developer. I build interfaces in React and TypeScript, apps for iOS and Android, and custom solutions for Shopify and WooCommerce stores.',
+    'Full-stack developer. I build interfaces in React and TypeScript, backends in Node.js, apps for iOS and Android, and custom solutions for Shopify and WooCommerce stores.',
   'home.location': "I live in {location}, Denmark, and I’m happy to relocate for the right job.",
   'home.available': "I’m currently looking for a developer role, and I’m open to both frontend and backend work.",
   'home.cta.projects': 'See projects',
